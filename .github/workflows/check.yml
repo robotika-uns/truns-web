@@ -1,0 +1,24 @@
+name: Check for errors
+
+on:
+  pull_request:
+    branches: [ master ]
+
+  workflow_dispatch:
+
+jobs:
+  web-deploy:
+    name: Check for errors
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get the latest code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-node@master
+      
+      - name: Installing project dependencies
+        run: npm install
+        
+      - name: Building the project
+        run: npm run generate
