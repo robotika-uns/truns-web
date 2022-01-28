@@ -45,7 +45,7 @@ jobs:
           server: ${{ secrets.FTP_SITE_SERVER}}
           username: ${{ secrets.FTP_SITE_USER}}
           password: ${{ secrets.FTP_SITE_PASS}}
-          local-dir: "./backend"
+          local-dir: "./backend/"
           server-dir: "truns-api/"
 
       - name: Migrasi database
