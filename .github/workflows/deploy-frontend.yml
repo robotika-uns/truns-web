@@ -1,0 +1,45 @@
+name: Deploy frontend ke hosting
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - frontend/**
+      - .github/workflows/deploy-frontend.yml
+
+jobs:
+  web-deploy:
+    name: Deploy frontend ke hosting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ambil kode terbaru
+        uses: actions/checkout@v2
+
+      - name: Ambil cache npm jika ada
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Menyiapkan Node.js
+        uses: actions/setup-node@master
+
+      - name: Mengisntall dependensi
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build project
+        working-directory: ./frontend
+        run: npm run generate
+
+      - name: Sinkronisasi file dengan hosing
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SITE_SERVER}}
+          username: ${{ secrets.FTP_SITE_USER}}
+          password: ${{ secrets.FTP_SITE_PASS}}
+          local-dir: "./frontend/dist/"
+          server-dir: "public_html/"

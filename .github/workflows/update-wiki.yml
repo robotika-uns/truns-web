@@ -1,0 +1,24 @@
+name: Update wiki
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "wiki/**"
+
+jobs:
+  wiki:
+    name: Memperbaharui wiki
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mengambil kode terbaru
+        uses: actions/checkout@v2
+
+      - name: Upload folder wiki ke GitHub Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "wiki"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

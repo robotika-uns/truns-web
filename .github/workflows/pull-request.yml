@@ -1,0 +1,77 @@
+name: Build test
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - "**"
+      - "!wiki/**"
+
+jobs:
+  backend:
+    name: Build backend
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mengambil kode terbaru
+        uses: actions/checkout@v2
+
+      - name: Mengambil cache composer jika ada
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Menyiapkan PHP dengan ekstensi PECL
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "7.0"
+          extensions: openssl, pdo_mysql, mbstring
+
+      - name: Menginstall dependensi
+        working-directory: ./backend
+        run: composer install --prefer-dist
+
+      - name: Tes menggunakan PHPUnit
+        uses: php-actions/phpunit@v3
+        with:
+          version: 6
+          php_version: 7.0
+          configuration: backend/phpunit.xml
+          php_extensions: openssl pdo_mysql mbstring
+
+  frontend:
+    name: Build frontend
+
+    needs: backend
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Mengambil kode terbaru
+        uses: actions/checkout@v2
+
+      - name: Mengambil cache npm jika ada
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Menyiapkan Node.js
+        uses: actions/setup-node@master
+
+      - name: Menginstall dependensi
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Proses building
+        working-directory: ./frontend
+        run: npm run generate
