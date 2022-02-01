@@ -2,7 +2,6 @@
   <div>
     <Navbar />
     <UnderConstruction />
-    <Footer />
   </div>
 </template>
 

@@ -2,11 +2,11 @@
 
 /**
  * -----------------------------------------------------------------------------
- * Authenticated Unverified Email Middleware
+ * Authenticated Verified Email Middleware 
  * -----------------------------------------------------------------------------
  * 
  * Semua route yang melewati middleware ini harus terotentikasi,
- * dan emailnya harus belum terverifikasi.
+ * dan emailnya harus sudah terverifikasi.
  * 
  */
 
@@ -20,16 +20,16 @@ use Closure;
 
 
 
-class UnverifiedEmailMiddleware
+class VerifiedEmailMiddleware
 {
   public function handle($request, Closure $next, $guard = null)
   {
 
     // Jika email belum diverifikasi.
-    if ($request->auth->email_verified == 'verified') {
+    if (!($request->auth->email_verified == 'verified')) {
       return response()->json([
-        'tag' => 'email_sudah_diverifikasi',
-        'pesan' => 'Email sudah diverifikasi.'
+        'tag' => 'email_belum_diverifikasi',
+        'pesan' => 'Email belum diverifikasi.'
       ], 401);
     }
 

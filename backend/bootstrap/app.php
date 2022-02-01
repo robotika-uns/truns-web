@@ -54,6 +54,8 @@ $app->singleton(
 );
 
 
+$app->configure('cors');
+
 
 
 /**
@@ -71,12 +73,14 @@ $app->singleton(
 // Middleware global
 $app->middleware([
     // App\Http\Middleware\ExampleMiddleware::class
+    Spatie\Cors\Cors::class,
 ]);
 
 // Middleware route, non-global
 $app->routeMiddleware([
     'guest' => App\Http\Middleware\GuestMiddleware::class,
     'authenticated' => App\Http\Middleware\AuthenticatedMiddleware::class,
+    'verified-email' => App\Http\Middleware\VerifiedEmailMiddleware::class,
     'unverified-email' => App\Http\Middleware\UnverifiedEmailMiddleware::class,
 ]);
 
@@ -97,6 +101,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Jenssegers\Agent\AgentServiceProvider::class);
+$app->register(Spatie\Cors\CorsServiceProvider::class);
 
 
 

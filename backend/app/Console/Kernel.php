@@ -37,7 +37,7 @@ class Kernel extends ConsoleKernel
                 ->where(
                     'created_at',
                     '<=',
-                    Carbon::now()->subSeconds(config('auth.verify_expired'))
+                    Carbon::now()->subSeconds(config('auth.verify_max'))
                 )
                 ->delete();
         })->everyMinute();

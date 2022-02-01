@@ -60,20 +60,56 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     ]);
 
     // Verifiy Email
-    $router->get('verify', [
+    $router->post('verify', [
         'uses' => 'AuthController@verify',
+        'middleware' => ['authenticated', 'unverified-email']
     ]);
 
     // Resend Email
     $router->patch('resend', [
         'uses' => 'AuthController@resend',
-        'middleware' => 'unverified-email'
+        'middleware' => ['authenticated', 'unverified-email']
+    ]);
+
+    // Resend Email Get Cooldown
+    $router->get('resend/cooldown', [
+        'uses' => 'AuthController@resendGetCooldown',
+        'middleware' => ['authenticated', 'unverified-email']
     ]);
 
     // Logout
-    $router->post('logout', [
+    $router->delete('logout', [
         'uses' => 'AuthController@logout',
         'middleware' => 'authenticated'
+    ]);
+
+    // Who am I?
+    $router->get('whoami', [
+        'uses' => 'AuthController@whoami',
+        'middleware' => 'authenticated'
+    ]);
+});
+
+
+
+
+/**
+ * Recruitment Routes
+ * -----------------------------------------------------------------------------
+ */
+
+$router->group(['prefix' => 'recruit'], function () use ($router) {
+
+    // Create Recruit
+    $router->post('/', [
+        'uses' => 'RecruitController@create',
+        'middleware' => ['authenticated', 'verified-email']
+    ]);
+
+    // Create Recruit
+    $router->get('/check', [
+        'uses' => 'RecruitController@check',
+        'middleware' => ['authenticated', 'verified-email']
     ]);
 });
 

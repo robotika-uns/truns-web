@@ -14,21 +14,22 @@
 
 return [
 
-    'login_failed'      => 'Email tidak terdaftar.',
-    'login_wrong'       => 'Email atau password salah.',
-    'login_success'     => 'Login berhasil.',
+    'login_gagal'       => 'Email / Username tidak terdaftar.',
+    'login_salah'       => 'Password salah.',
+    'login_sukses'      => 'Login berhasil.',
 
-    'register_failed'   => 'Email sudah terdaftar sebelumnya.',
+    'register_sukses'   => 'Registrasi berhasil.',
+    'register_gagal'    => 'Email sudah terdaftar sebelumnya.',
 
-    'verify_expired'    => 'Link untuk verifikasi email sudah kadaluarsa.',
-    'verify_invalid'    => 'Link untuk verifikasi email salah.',
-    'verify_failed'     => 'Email sudah diverifikasi.',
-    'verify_success'    => 'Email berhasil diverifikasi.',
+    'verify_kadaluarsa' => 'Kode verifikasi sudah kadaluarsa.',
+    'verify_salah'      => 'Kode verifikasi salah.',
+    'verify_gagal'      => 'Email sudah diverifikasi.',
+    'verify_sukses'     => 'Email berhasil diverifikasi.',
 
-    'resend_limit'      => 'Maksimal mengirim ulang email verifikasi sebanyak 5x sudah tercapai.',
+    'resend_dibatasi'   => 'Maksimal mengirim ulang email verifikasi sebanyak 5x sudah tercapai.',
     'resend_cooldown'   => 'Tunggu :waktu detik lagi untuk mengirim ulang email verifikasi.',
-    'resend_success'    => 'Berhasil mengirim ulang email verifikasi.',
+    'resend_sukses'     => 'Berhasil mengirim ulang email verifikasi.',
 
-    'logout_success'    => 'Logout berhasil.'
+    'logout_sukses'     => 'Logout berhasil.'
 
 ];

@@ -33,8 +33,8 @@ class AuthenticatedMiddleware
     // Jika Bearer token belum disertakan pada Authorization Header.
     if (!$encrypted_token) {
       return response()->json([
-        'error' => 'authenticated_only',
-        'message' => 'Kamu belum terotentikasi.'
+        'tag' => 'belum_terotentikasi',
+        'pesan' => 'Kamu belum terotentikasi.'
       ], 401);
     }
 
@@ -45,8 +45,8 @@ class AuthenticatedMiddleware
       // Jika token ternyata tidak valid.
     } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
       return response()->json([
-        'tag' => 'token_invalid',
-        'message' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
+        'tag' => 'token_salah',
+        'pesan' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
       ], 400);
     }
 
@@ -56,21 +56,13 @@ class AuthenticatedMiddleware
     // Jika session tidak ditemukan,
     if (!$session) {
       return response()->json([
-        'error' => 'token_invalid',
-        'message' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
+        'tag' => 'token_salah',
+        'pesan' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
       ], 401);
     }
 
     // Jika session ditemukan,
     $user = User::find($session->user_id);
-
-    // Jika email belum diverifikasi.
-    if (!$user->email_verified == 'verified') {
-      return response()->json([
-        'error' => 'unverified_email',
-        'message' => 'Email belum diverifikasi.'
-      ], 401);
-    }
 
     // Taruh data $user ke $request supaya dapat digunakan kembali.
     $request->auth = $user;

@@ -1,4 +1,9 @@
 export default {
+  // Environment variables
+  publicRuntimeConfig: {
+    apiURL: process.env.API_URL || 'http://localhost:8000'
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -26,7 +31,10 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    '~/plugins/vue-awesome-countdown.js',
+    '~/plugins/axios'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -48,6 +56,10 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
+  },
+
+  router: {
+    middleware: 'getuser'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

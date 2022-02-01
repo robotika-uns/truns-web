@@ -33,11 +33,20 @@ return [
 
 
   /**
-   * Maksimal verifikasi email (dalam satuan detik).
+   * Batas waktu verifikasi (dalam satuan detik).
    * 
    * default: 6 Jam.
    * 
    */
-  'verify_expired'  => 60 * 60 * 6
+  'verify_max'  => 60 * 60 * 6,
+
+
+  /**
+   * Batas waktu kode verifikasi (dalam satuan detik).
+   * 
+   * default: 15 Menit.
+   * 
+   */
+  'verify_kadaluarsa'  => 60 * 15
 
 ];

@@ -37,8 +37,8 @@ class GuestMiddleware
         // Jika token ternyata tidak valid.
       } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
         return response()->json([
-          'tag' => 'token_invalid',
-          'message' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
+          'tag' => 'token_salah',
+          'pesan' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
         ], 400);
       }
 
@@ -48,14 +48,14 @@ class GuestMiddleware
       // Jika session tidak ditemukan,
       if (!$session) {
         return response()->json([
-          'error' => 'token_invalid',
-          'message' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
+          'tag' => 'token_salah',
+          'pesan' => 'Sesion token tidak ditemukan atau sudah kadaluarsa.'
         ], 401);
       }
 
       return response()->json([
-        'error' => 'guest_only',
-        'message' => 'Kamu sudah terotentikasi.'
+        'tag' => 'sudah_terotentikasi',
+        'pesan' => 'Kamu sudah terotentikasi.'
       ], 401);
     }
 

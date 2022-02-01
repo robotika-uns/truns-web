@@ -39,8 +39,8 @@
             Robotika
             <b>Universitas Sebelas Maret</b>, Surakarta, Indonesia.
           </p>
-          <NuxtLink to="#tim" class="btn btn-primary tracking-wider"
-            >Tim Kami &nbsp;
+          <NuxtLink to="/rekrutmen" class="btn btn-primary tracking-wider"
+            >Rekrutmen &nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -225,14 +225,14 @@
       </div>
     </div>
 
-    <Wave2 />
+    <Wave3 />
     <h1
       class="
         text-5xl
         font-light
         tracking-widest
         text-center
-        bg-base-200
+        bg-base-100
         text-slate-100
       "
     >
@@ -250,7 +250,7 @@
         pb-0
         md:p-24 md:pb-0
         mx-auto
-        bg-base-200
+        bg-base-100
       "
     >
       <div
@@ -300,7 +300,7 @@
         pb-24
         md:p-24
         mx-auto
-        bg-base-200
+        bg-base-100
       "
     >
       <div

@@ -12,6 +12,15 @@
 * [Prasyarat](https://github.com/robotika-uns/truns-web/wiki/Berkontribusi#-prasyarat-)
 * [Alur Kontribusi](https://github.com/robotika-uns/truns-web/wiki/Berkontribusi#-alur-kontribusi-)
 
+### Rest API
+* [Authentication](https://github.com/robotika-uns/truns-web/wiki/api#-authentication-)
+  * [Login](https://github.com/robotika-uns/truns-web/wiki/api#-authentication--login)
+  * [Register](https://github.com/robotika-uns/truns-web/wiki/api#-authentication--register)
+  * [Verify](https://github.com/robotika-uns/truns-web/wiki/api#-authentication--verify)
+  * [Resend](https://github.com/robotika-uns/truns-web/wiki/api#-authentication--resend)
+  * [Logout](https://github.com/robotika-uns/truns-web/wiki/api#-authentication--logout)
+
+
 ### Credits
 * [Project Maintainer](https://github.com/robotika-uns/truns-web/wiki/Credits#-project-maintainer-)
 * [Backend Developer](https://github.com/robotika-uns/truns-web/wiki/Credits#-backend-developer-)

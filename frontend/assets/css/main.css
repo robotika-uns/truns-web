@@ -67,3 +67,26 @@ body {
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0);
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #16181d inset !important;
+    -webkit-text-fill-color: #c7c7c7 !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}
+
+::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}

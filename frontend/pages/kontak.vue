@@ -113,8 +113,6 @@
       <Wave />
     </div>
 
-    <Footer />
-
     <input
       id="sendSuccessModal"
       v-model="modal"
