@@ -35,7 +35,13 @@
       >
         <li class="p-5 border-b-2 border-b-primary/20 mb-2 flex flex-col">
           <div>
-            <b>{{ cutString(user.name, 23) }}</b>
+            <NuxtLink
+              :to="`/user/${user.username}`"
+              class="tooltip tooltip-bottom"
+              data-tip="Lihat Profil"
+            >
+              <b>{{ cutString(user.name, 23) }}</b>
+            </NuxtLink>
           </div>
           <div class="text-white/50 text-xs">
             {{ cutString(user.username, 35) }}
@@ -45,6 +51,11 @@
           <NuxtLink to="/dashboard" class="btn-sm btn-ghost"
             ><span class="text-white/80 tracking-wider"
               >Dashboard</span
+            ></NuxtLink
+          >
+          <NuxtLink to="/pengaturan/profil" class="btn-sm btn-ghost"
+            ><span class="text-white/80 tracking-wider"
+              >Pengaturan</span
             ></NuxtLink
           >
         </li>

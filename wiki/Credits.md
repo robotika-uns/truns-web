@@ -20,3 +20,10 @@
 
 ### [ **Wiki Creator** ]
 *
+
+<br>
+
+### [ **Penunjang** ]
+* Ilustrasi oleh [**Storyset**](https://storyset.com/).
+* Icon oleh [**Remix Icon**](https://storyset.com/).
+* Wave Generator oleh [**SVG Wave**](https://svgwave.in/).

@@ -152,6 +152,7 @@ class AuthController extends BaseController
 		$this->user->email = $email;
 		$this->user->password = $password;
 		$this->user->role = "member";
+		$this->user->tipe = "outsider";
 		$this->user->email_verified = 0;
 		$this->user->save();
 		$this->request->auth = $this->user;

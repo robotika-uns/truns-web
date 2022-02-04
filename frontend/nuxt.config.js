@@ -4,6 +4,17 @@ export default {
     apiURL: process.env.API_URL || 'http://localhost:8000'
   },
 
+  loading: {
+    color: 'white',
+    height: '1px'
+  },
+
+  loadingIndicator: {
+    name: 'pulse',
+    color: '#ffffff',
+    background: '#16181d'
+  },
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -27,6 +38,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    'remixicon/fonts/remixicon.css',
     '@/assets/css/main.css',
   ],
 

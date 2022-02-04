@@ -17,6 +17,7 @@ namespace App\Http\Controllers;
 use App\User;
 use App\Recruit;
 use App\Session;
+use App\Notifications\RecruitNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
@@ -24,7 +25,7 @@ use Illuminate\Support\Facades\Hash;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Mailjet\Resources;
-use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 
@@ -106,8 +107,11 @@ class RecruitController extends BaseController
         // Buat recruit baru.
         $recruit = new Recruit;
         $recruit->user_id = $this->request->auth->id;
+        $recruit->status = 'diproses';
         $recruit->fill($this->request->all());
         $recruit->save();
+
+        Notification::send($this->request->auth, new RecruitNotification($recruit, ['tim' => 'sambergeni']));
 
         // Kirim respon [200] 'formulir_terkirim'.
         return response()->json([

@@ -78,6 +78,7 @@
             v-for="menu in menus"
             :key="menu.text"
             class="
+              mx-1
               px-4
               btn btn-sm
               rounded-btn
@@ -85,7 +86,7 @@
               tracking-widest
               transition
               ease-in-out
-              hover:scale-110
+              hover:-translate-y-1
               duration-200
             "
             :class="

@@ -28,6 +28,10 @@ $app = new Laravel\Lumen\Application(
 $app->withFacades();
 $app->withEloquent();
 
+$app->withFacades(true, [
+    'Illuminate\Support\Facades\Notification' => 'Notification',
+]);
+
 
 
 
@@ -102,6 +106,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Jenssegers\Agent\AgentServiceProvider::class);
 $app->register(Spatie\Cors\CorsServiceProvider::class);
+$app->register(\Illuminate\Notifications\NotificationServiceProvider::class);
 
 
 

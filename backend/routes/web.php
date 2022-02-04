@@ -94,6 +94,27 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 
 
 /**
+ * User Routes
+ * -----------------------------------------------------------------------------
+ */
+
+$router->group(['prefix' => 'user'], function () use ($router) {
+    // Who am I?
+    $router->get('{username}', [
+        'uses' => 'UserController@getUserByUsername',
+        // 'middleware' => 'authenticated'
+    ]);
+
+    $router->patch('/', [
+        'uses' => 'UserController@update',
+        'middleware' => ['authenticated', 'verified-email']
+    ]);
+});
+
+
+
+
+/**
  * Recruitment Routes
  * -----------------------------------------------------------------------------
  */
@@ -107,8 +128,48 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
     ]);
 
     // Create Recruit
-    $router->get('/check', [
+    $router->get('check', [
         'uses' => 'RecruitController@check',
+        'middleware' => ['authenticated', 'verified-email']
+    ]);
+});
+
+
+
+
+/**
+ * Journey Routes
+ * -----------------------------------------------------------------------------
+ */
+
+$router->group(['prefix' => 'journey'], function () use ($router) {
+
+    // Create Journey
+    $router->post('/', [
+        'uses' => 'JourneyController@create',
+        // 'middleware' => ['authenticated', 'verified-email']
+    ]);
+
+    // Ambil journey berdasarkan user
+    $router->get('user/{user_id}', [
+        'uses' => 'JourneyController@getJourneyByUser',
+        // 'middleware' => ['authenticated', 'verified-email']
+    ]);
+});
+
+
+
+
+/**
+ * Notification Routes
+ * -----------------------------------------------------------------------------
+ */
+
+$router->group(['prefix' => 'notifications'], function () use ($router) {
+
+    // Create Recruit
+    $router->get('/', [
+        'uses' => 'NotificationController@getAll',
         'middleware' => ['authenticated', 'verified-email']
     ]);
 });
