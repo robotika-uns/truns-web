@@ -22,29 +22,29 @@
       <ul
         v-if="user"
         tabindex="0"
-        class="
-          p-2
-          shadow
-          menu
-          dropdown-content
-          bg-base-300
-          rounded-box
-          w-72
-          border-2 border-primary/10
-        "
+        class="p-2 shadow menu dropdown-content bg-base-300 rounded-box w-96 border-2 border-primary/10"
       >
-        <li class="p-5 border-b-2 border-b-primary/20 mb-2 flex flex-col">
-          <div>
-            <NuxtLink
-              :to="`/user/${user.username}`"
-              class="tooltip tooltip-bottom"
-              data-tip="Lihat Profil"
-            >
-              <b>{{ cutString(user.name, 23) }}</b>
-            </NuxtLink>
+        <li class="p-5 border-b-2 border-b-primary/20 mb-2 flex flex-row">
+          <div class="avatar placeholder">
+            <div class="mb-5 w-20 h-20 mask mask-squircle bg-base-100">
+              <img v-if="user.photo" :src="user.photo" />
+              <i v-else class="ri-user-3-fill ri-4x text-primary/50"></i>
+            </div>
           </div>
-          <div class="text-white/50 text-xs">
-            {{ cutString(user.username, 35) }}
+          <div class="flex flex-col pl-3">
+            <div>
+              <b>{{ singkatNama(user.name) }}</b>
+            </div>
+            <div class="text-white text-sm">
+              {{ cutString(user.username, 35) }}
+            </div>
+            <div
+              class="badge badge-primary align-middle select-none uppercase mt-3"
+            >
+              <NuxtLink :to="`/user/${user.username}`">
+                <b>Lihat Profil</b>
+              </NuxtLink>
+            </div>
           </div>
         </li>
         <li>
@@ -69,16 +69,7 @@
       <ul
         v-if="!user"
         tabindex="0"
-        class="
-          p-2
-          shadow
-          menu
-          dropdown-content
-          bg-base-300
-          rounded-box
-          w-36
-          border-2 border-primary/10
-        "
+        class="p-2 shadow menu dropdown-content bg-base-300 rounded-box w-36 border-2 border-primary/10"
       >
         <li>
           <NuxtLink to="/login" class="btn-sm btn-ghost"
@@ -122,6 +113,22 @@ export default {
         .catch(() => {
           //   store.commit('user/setUser', '')
         })
+    },
+    singkatNama(name) {
+      const singkat = [name[0]]
+      for (let i = 0; i < name.length; i++) {
+        if (name[i] === ' ') {
+          singkat.push(name[i + 1])
+        }
+      }
+      const hasil = singkat
+        .map((el) => el.toUpperCase())
+        .join('. ')
+        .substring(6)
+
+      const first2 = name.split(' ').slice(0, 2).join(' ')
+      const lastdot = hasil ? '.' : ''
+      return first2 + ' ' + hasil + lastdot
     },
   },
 }

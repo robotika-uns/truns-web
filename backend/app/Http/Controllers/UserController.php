@@ -4,38 +4,25 @@
  * -----------------------------------------------------------------------------
  * Recruit Controller
  * -----------------------------------------------------------------------------
- * 
+ *
  * Kontroler yang memproses semua route Recruitment.
- * 
+ *
  */
-
-
-
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Journey;
-use App\Notifications\RecruitNotification;
-use Carbon\Carbon;
+use App\User;
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
-use Illuminate\Support\Facades\Hash;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use Mailjet\Resources;
-use Illuminate\Support\Facades\Notification;
 use Laravel\Lumen\Routing\Controller as BaseController;
-
-
-
 
 class UserController extends BaseController
 {
 
     /**
      * Constructor Injection
-     * 
+     *
      */
 
     protected $request;
@@ -49,14 +36,11 @@ class UserController extends BaseController
         $this->jwt_key = env("JWT_SECRET");
     }
 
-
-
-
     /**
      * Check Method
-     * 
+     *
      * Untuk cek apakah user sudah mengirim formulir sebelumnya.
-     * 
+     *
      */
     public function getUserByUsername($username)
     {
@@ -64,13 +48,12 @@ class UserController extends BaseController
         $user = User::where('username', $username)
             ->first();
 
-
         // Jika user sudah mengirim formulir sebelumnya.
         if (!$user) {
             // Kirim respon [403] 'recruit_sudah_submit'.
             return response()->json([
                 'tag' => 'user_tidak_ditemukan',
-                'pesan' => trans('user.tidak_ada')
+                'pesan' => trans('user.tidak_ada'),
             ], 404);
         }
 
@@ -79,28 +62,68 @@ class UserController extends BaseController
 
         // Kirim respon [200] 'recruit_belum_submit'.
         return response()->json([
-            'tag'   => 'user_ditemukan',
+            'tag' => 'user_ditemukan',
             'pesan' => trans('recruit.belum_submit'),
-            'data'  => $user
+            'data' => $user,
         ], 200);
     }
 
-
-
-
     /**
      * Update Method
-     * 
+     *
      * Untuk mengupdate profil.
-     * 
+     *
      */
     public function update()
     {
         // Validasi input.
         $this->validate($this->request, [
-            'name'   => 'required',
+            'name' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
         ]);
 
-        $this->request->auth->update($this->request->all());
+        $input = array_map('trim', $this->request->all());
+
+        $this->request->auth->update($input);
+    }
+
+    /**
+     * Upload Photo Method
+     *
+     * Untuk mengupdate foto profil.
+     *
+     */
+    public function photo()
+    {
+        // Validasi input.
+        $this->validate($this->request, [
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $client = new GuzzleClient();
+        $res = $client->request('POST', "https://api.imgbb.com/1/upload", [
+            'multipart' => [
+                [
+                    'name' => 'key',
+                    'contents' => env('IMGBB_API_KEY'),
+                ],
+                [
+                    'name' => 'image',
+                    'contents' => base64_encode(file_get_contents(
+                        $this->request->file('photo')
+                    )),
+                ],
+            ],
+        ]);
+
+        $photo = json_decode($res->getBody())->data->medium->url;
+
+        $this->request->auth->update(["photo" => $photo]);
+
+        // Kirim respon [200] 'recruit_belum_submit'.
+        return response()->json([
+            'tag' => 'upload_sukses',
+            'pesan' => 'Foto berhasil diganti.',
+            'photo' => $photo,
+        ], 200);
     }
 }

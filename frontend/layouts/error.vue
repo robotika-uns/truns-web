@@ -10,11 +10,7 @@
             </p>
             <NuxtLink
               to="/"
-              class="
-                btn btn-primary
-                tracking-wider
-                hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-              "
+              class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -44,11 +40,7 @@
             </p>
             <NuxtLink
               to="/"
-              class="
-                btn btn-primary
-                tracking-wider
-                hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-              "
+              class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -79,7 +71,7 @@ export default {
   props: { error: { type: Object, default: null } },
   head() {
     return {
-      title: 'Keratown | Error ' + String(this.error.statusCode),
+      title: `Error | ${this.$config.appName}`,
     }
   },
 }

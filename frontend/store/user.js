@@ -9,12 +9,18 @@ export const actions = {
         commit('setCounter', state.counter + 1)
     }
 }
+
 // contains your mutations
 export const mutations = {
     setUser(state, value) {
         state.currentUser = value
+    },
+
+    setPhoto(state, value) {
+        state.currentUser.photo = value
     }
 }
+
 // your root getters
 export const getters = {
     getCurrentUser(state) { return state.currentUser }

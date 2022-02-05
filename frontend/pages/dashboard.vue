@@ -3,23 +3,10 @@
     <Navbar />
 
     <div
-      class="
-        h-56
-        rounded-b-[5rem]
-        bg-base-300
-        mt-[-9rem]
-        shadow-2xl shadow-black/70
-      "
+      class="h-56 rounded-b-[5rem] bg-base-300 mt-[-9rem] shadow-2xl shadow-black/70"
     >
       <div
-        class="
-          text-center
-          pt-32
-          text-4xl
-          font-extralight
-          tracking-widest
-          uppercase
-        "
+        class="text-center pt-32 text-4xl font-extralight tracking-widest uppercase"
       >
         Dashboard
       </div>
@@ -28,16 +15,7 @@
       <div class="col-span-4">
         <div class="card card-bordered bg-base-200">
           <h2
-            class="
-              card-title
-              uppercase
-              font-light
-              bg-base-300
-              tracking-widest
-              text-3xl
-              py-5
-              px-8
-            "
+            class="card-title uppercase font-light bg-base-300 tracking-widest text-3xl py-5 px-8"
           >
             Pengumuman
           </h2>
@@ -76,17 +54,7 @@
       <div class="col-span-8">
         <div class="card card-bordered bg-base-200">
           <h2
-            class="
-              card-title
-              uppercase
-              font-light
-              bg-base-300
-              tracking-widest
-              text-3xl
-              py-5
-              px-8
-              border-b-2 border-b-primary/10
-            "
+            class="card-title uppercase font-light bg-base-300 tracking-widest text-3xl py-5 px-8 border-b-2 border-b-primary/10"
           >
             Notifikasi
           </h2>
@@ -153,14 +121,16 @@
 export default {
   name: 'DashboardPage',
   middleware: 'authenticated',
-  data: () => ({
-    notifications: null,
+  data() {
+    return {
+      notifications: null,
 
-    state: {
-      isFetchingNotifications: true,
-      error: '',
-    },
-  }),
+      state: {
+        isFetchingNotifications: true,
+        error: '',
+      },
+    }
+  },
   async fetch() {
     this.state.isFetchingNotifications = true
     await this.$axios
@@ -173,6 +143,11 @@ export default {
         }
         this.state.isFetchingNotifications = false
       })
+  },
+  head() {
+    return {
+      title: `Dashboard | ${this.$config.appName}`,
+    }
   },
 }
 </script>

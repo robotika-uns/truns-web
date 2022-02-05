@@ -109,6 +109,11 @@ $router->group(['prefix' => 'user'], function () use ($router) {
         'uses' => 'UserController@update',
         'middleware' => ['authenticated', 'verified-email']
     ]);
+
+    $router->post('/photo', [
+        'uses' => 'UserController@photo',
+        'middleware' => ['authenticated', 'verified-email']
+    ]);
 });
 
 

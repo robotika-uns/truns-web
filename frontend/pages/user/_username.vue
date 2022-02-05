@@ -2,13 +2,7 @@
   <div>
     <Navbar />
     <div
-      class="
-        h-80
-        rounded-b-[5rem]
-        bg-base-300
-        mt-[-9rem]
-        shadow-2xl shadow-black/70
-      "
+      class="h-80 rounded-b-[5rem] bg-base-300 mt-[-9rem] shadow-2xl shadow-black/70"
     >
       <div v-if="state.isFetching" class="pt-48 px-14">
         <svg
@@ -54,29 +48,16 @@
       >
         <div class="avatar placeholder">
           <div class="mb-8 w-28 h-28 mask mask-squircle bg-base-100">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              class="w-14 h-14"
-            >
-              <path fill="none" d="M0 0h24v24H0z" />
-              <path
-                d="M20 22H4v-2a5 5 0 0 1 5-5h6a5 5 0 0 1 5 5v2zm-8-9a6 6 0 1 1 0-12 6 6 0 0 1 0 12z"
-                class="fill-primary/50"
-              />
-            </svg>
-            <!-- <img
-              class=""
-              src="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-            /> -->
+            <img v-if="user.photo" :src="user.photo" />
+            <i v-else class="ri-user-3-fill ri-4x text-primary/50"></i>
           </div>
         </div>
 
-        <div class="col-span-4">
+        <div class="col-span-6">
           <div class="text-3xl text-slate-100">
-            <b>{{ user.name }}</b>
+            <b>{{ singkatNama(user.name) }}</b>
             <div class="badge badge-primary align-middle select-none uppercase">
-              <b>{{ user.tipe }}</b>
+              <b>{{ user.tipe }} </b>
             </div>
             <div
               v-if="!(user.role == 'member')"
@@ -98,23 +79,11 @@
           </div>
         </div>
         <div
-          class="
-            col-end-11 col-span-2
-            dropdown dropdown-hover dropdown-end
-            cursor-pointer
-          "
+          class="col-end-11 col-span-2 dropdown dropdown-hover dropdown-end cursor-pointer"
           tabindex="1"
         >
           <div
-            class="
-              shadow
-              transition
-              ease-in-out
-              duration-300
-              hover:shadow-lg hover:shadow-black
-              stats
-              w-full
-            "
+            class="shadow transition ease-in-out duration-300 hover:shadow-lg hover:shadow-black stats w-full"
           >
             <div class="stat">
               <div class="stat-title uppercase tracking-widest">Experience</div>
@@ -143,17 +112,7 @@
           </div>
           <div
             tabindex="1"
-            class="
-              card
-              compact
-              dropdown-content
-              shadow-xl shadow-black/20
-              bg-base-200
-              rounded-box
-              w-96
-              mt-5
-              cursor-default
-            "
+            class="card compact dropdown-content shadow-xl shadow-black/20 bg-base-200 rounded-box w-96 mt-5 cursor-default"
           >
             <div class="card-body">
               <h2 class="card-title tracking-widest">EXPERIENCE</h2>
@@ -187,23 +146,11 @@
           </div>
         </div>
         <div
-          class="
-            col-end-13 col-span-2
-            dropdown dropdown-hover dropdown-end
-            cursor-pointer
-          "
+          class="col-end-13 col-span-2 dropdown dropdown-hover dropdown-end cursor-pointer"
           tabindex="0"
         >
           <div
-            class="
-              shadow
-              transition
-              ease-in-out
-              duration-300
-              hover:shadow-lg hover:shadow-black
-              stats
-              w-full
-            "
+            class="shadow transition ease-in-out duration-300 hover:shadow-lg hover:shadow-black stats w-full"
           >
             <div class="stat">
               <div class="stat-title uppercase tracking-widest">Reputasi</div>
@@ -260,17 +207,7 @@
           </div>
           <div
             tabindex="0"
-            class="
-              card
-              compact
-              dropdown-content
-              shadow-xl shadow-black/20
-              bg-base-200
-              rounded-box
-              w-96
-              mt-5
-              cursor-default
-            "
+            class="card compact dropdown-content shadow-xl shadow-black/20 bg-base-200 rounded-box w-96 mt-5 cursor-default"
           >
             <div class="card-body">
               <h2 class="card-title tracking-widest">REPUTASI</h2>
@@ -326,19 +263,7 @@
         </div>
         <div v-if="user && user.journey == ''">
           <div
-            class="
-              card
-              bg-base-100
-              shadow-lg shadow-black/20
-              transition
-              ease-in-out
-              duration-300
-              hover:shadow-lg hover:shadow-black
-              border-2 border-primary/10
-              relative
-              select-none
-              z-10
-            "
+            class="card bg-base-100 shadow-lg shadow-black/20 transition ease-in-out duration-300 hover:shadow-lg hover:shadow-black border-2 border-primary/10 relative select-none z-10"
           >
             <div class="flex bg-base-300/50 p-5">
               <svg
@@ -377,19 +302,7 @@
               class="h-10 ml-16 border-l-2 border-primary/10"
             ></div>
             <div
-              class="
-                card
-                bg-base-100
-                shadow-lg shadow-black/20
-                transition
-                ease-in-out
-                duration-300
-                hover:shadow-lg hover:shadow-black
-                border-2 border-primary/10
-                relative
-                select-none
-                z-10
-              "
+              class="card bg-base-100 shadow-lg shadow-black/20 transition ease-in-out duration-300 hover:shadow-lg hover:shadow-black border-2 border-primary/10 relative select-none z-10"
             >
               <div class="flex bg-base-300/50 p-5">
                 <img
@@ -451,13 +364,7 @@
         <div v-if="user && !state.isFetching">
           <div class="tabs">
             <a
-              class="
-                tab tab-lg tab-lifted
-                uppercase
-                tracking-widest
-                text-white
-                font-medium
-              "
+              class="tab tab-lg tab-lifted uppercase tracking-widest text-white font-medium"
               >Aktifitas</a
             >
             <!-- <a
@@ -512,43 +419,47 @@ import { id } from 'date-fns/locale'
 
 export default {
   name: 'UserPage',
-  //   middleware: 'authenticated',
-  data: () => ({
-    notifications: null,
-    user: null,
-    experience: {
-      kasus_baru: {
-        xp: 128,
-        keterangan: 'Membuat kasus baru.',
+
+  data() {
+    return {
+      notifications: null,
+      user: {
+        name: '',
       },
-      menjawab_kasus: {
-        xp: 256,
-        keterangan: 'Menjawab kasus.',
+      experience: {
+        kasus_baru: {
+          xp: 128,
+          keterangan: 'Membuat kasus baru.',
+        },
+        menjawab_kasus: {
+          xp: 256,
+          keterangan: 'Menjawab kasus.',
+        },
+        mendapat_upvote: {
+          xp: 512,
+          keterangan: 'Mendapat upvote.',
+        },
+        menyelesaikan_kasus: {
+          xp: 1024,
+          keterangan: 'Menyelesaikan kasus.',
+        },
       },
-      mendapat_upvote: {
-        xp: 512,
-        keterangan: 'Mendapat upvote.',
+      reputasi: {
+        mendapat_upvote: {
+          rep: 1,
+          keterangan: 'Mendapat upvote.',
+        },
+        menyelesaikan_kasus: {
+          rep: 2,
+          keterangan: 'Menyelesaikan kasus.',
+        },
       },
-      menyelesaikan_kasus: {
-        xp: 1024,
-        keterangan: 'Menyelesaikan kasus.',
+      state: {
+        isFetching: true,
+        error: '',
       },
-    },
-    reputasi: {
-      mendapat_upvote: {
-        rep: 1,
-        keterangan: 'Mendapat upvote.',
-      },
-      menyelesaikan_kasus: {
-        rep: 2,
-        keterangan: 'Menyelesaikan kasus.',
-      },
-    },
-    state: {
-      isFetching: true,
-      error: '',
-    },
-  }),
+    }
+  },
   async fetch() {
     this.state.isFetching = true
     await this.$axios
@@ -560,6 +471,15 @@ export default {
         this.user = null
       })
     this.state.isFetching = false
+  },
+  head() {
+    return {
+      title: this.user.name
+        ? `${this.singkatNama(this.user.name)} - @${this.user.username} | ${
+            this.$config.appName
+          }`
+        : `User tidak ditemukan | ${this.$config.appName}`,
+    }
   },
   methods: {
     bulan(tanggal) {
@@ -574,6 +494,22 @@ export default {
       if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + 'jt'
       if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + 'm'
       if (n >= 1e12) return +(n / 1e12).toFixed(1) + 'T'
+    },
+    singkatNama(name) {
+      const singkat = [name[0]]
+      for (let i = 0; i < name.length; i++) {
+        if (name[i] === ' ') {
+          singkat.push(name[i + 1])
+        }
+      }
+      const hasil = singkat
+        .map((el) => el.toUpperCase())
+        .join('. ')
+        .substring(6)
+
+      const first2 = name.split(' ').slice(0, 2).join(' ')
+      const lastdot = hasil ? '.' : ''
+      return first2 + ' ' + hasil + lastdot
     },
   },
 }
