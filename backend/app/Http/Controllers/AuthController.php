@@ -11,6 +11,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\KirimEmail;
 use App\Session;
 use App\User;
 use Carbon\Carbon;
@@ -19,7 +20,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use Jenssegers\Agent\Agent;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Mailjet\Resources;
 
 class AuthController extends BaseController
 {
@@ -119,17 +119,6 @@ class AuthController extends BaseController
         $username = $this->request->input('username');
         $email = $this->request->input('email');
         $password = Hash::make($this->request->input('password'));
-
-        // Jika user dengan email input sudah ada,
-        // $this->user = User::where('email', $email)->first();
-        // if ($this->user) {
-
-        //     // Kirim respon [400] 'register_gagal'.
-        //     return response()->json([
-        //         'tag' => 'register_gagal',
-        //         'pesan' => trans('auth.register_gagal')
-        //     ], 400);
-        // }
 
         // Membuat user baru.
         $this->user = new User;
@@ -392,36 +381,23 @@ class AuthController extends BaseController
      */
     public function sendVerificationEmail($verification_code)
     {
-        $mj = new \Mailjet\Client(
-            env("MAILJET_APIKEY_PUBLIC"),
-            env("MAILJET_APIKEY_PRIVATE"),
-            true,
-            ['version' => 'v3.1']
-        );
-        $body = [
-            'Messages' => [
-                [
-                    'From' => [
-                        'Email' => "robotika@mail.uns.ac.id",
-                        'Name' => "UKM Robotika UNS",
-                    ],
-                    'To' => [
-                        [
-                            'Email' => $this->request->auth->email,
-                            'Name' => $this->request->auth->name,
-                        ],
-                    ],
-                    'TemplateID' => 3516106,
-                    'TemplateLanguage' => true,
-                    'Subject' => "Verifikasi Email Akun Robotika UNS",
-                    'Variables' => json_decode('{
-		    "name": "' . explode(' ', trim($this->request->auth->name))[0] . '",
-		    "verification_code": "' . $verification_code . '"
-		  }', true),
-                ],
-            ],
+
+        $penerima = [
+            'Email' => $this->request->auth->email,
+            'Name' => $this->request->auth->name,
         ];
-        $response = $mj->post(Resources::$Email, ['body' => $body]);
-        $response->success();
+
+        $variables = [
+            'name' => explode(' ', trim($this->request->auth->name))[0],
+            'verification_code' => $verification_code,
+        ];
+
+        KirimEmail::kirim([
+            'penerima' => $penerima,
+            'template' => 3516106,
+            'judul' => 'Verifikasi Email Akun Robotika UNS',
+            'variables' => $variables,
+
+        ]);
     }
 }
