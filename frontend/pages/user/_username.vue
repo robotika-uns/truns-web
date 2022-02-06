@@ -73,8 +73,8 @@
               <b>{{ user.role }}</b>
             </div>
           </div>
-          <div class="text-slate-300 text-xl">@{{ user.username }}</div>
-          <div class="text-slate-400 mt-3">
+          <div class="text-slate-300 text-xl"><b>@</b>{{ user.username }}</div>
+          <div class="text-slate-400 text-lg mt-5">
             {{ user.bio }}
           </div>
         </div>
