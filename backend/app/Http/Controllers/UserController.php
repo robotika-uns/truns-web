@@ -11,9 +11,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UploadGambar;
 use App\Journey;
 use App\User;
-use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -99,23 +99,7 @@ class UserController extends BaseController
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $client = new GuzzleClient();
-        $res = $client->request('POST', "https://api.imgbb.com/1/upload", [
-            'multipart' => [
-                [
-                    'name' => 'key',
-                    'contents' => env('IMGBB_API_KEY'),
-                ],
-                [
-                    'name' => 'image',
-                    'contents' => base64_encode(file_get_contents(
-                        $this->request->file('photo')
-                    )),
-                ],
-            ],
-        ]);
-
-        $photo = json_decode($res->getBody())->data->medium->url;
+        $photo = UploadGambar::upload($this->request->file('photo'));
 
         $this->request->auth->update(["photo" => $photo]);
 

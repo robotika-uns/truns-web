@@ -60,7 +60,6 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/vue-awesome-countdown.js',
     '~/plugins/axios'
   ],
 

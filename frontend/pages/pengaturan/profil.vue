@@ -37,8 +37,51 @@
               <i v-else class="ri-user-3-fill ri-6x text-primary/50"></i>
             </div>
           </div>
+
+          <!-- <label for="my-modal-2" class="btn btn-primary modal-button hidden"
+            >open modal</label
+          > -->
+          <input
+            id="cropModal"
+            v-model="showCropModal"
+            type="checkbox"
+            class="modal-toggle"
+          />
+          <div class="modal">
+            <div class="modal-box">
+              <div>
+                <!-- {{ $refs.photo ? $refs.photo.files[0] : '' }} -->
+                <!-- <img
+                  id="image"
+                  :src="user.photo"
+                  style="display: block; max-width: 100%"
+                /> -->
+                <VueCropper ref="cropper" :src="preview" :aspect-ratio="1 / 1">
+                </VueCropper>
+                <!-- <img
+                  :src="
+                    $refs.photo ? URL.createObjectURL($refs.photo.files[0]) : ''
+                  "
+                  alt=""
+                /> -->
+              </div>
+              <div class="modal-action">
+                <label for="cropModal" class="btn btn-primary" @click="upload"
+                  >Simpan</label
+                >
+                <label for="cropModal" class="btn" @click="batal">Batal</label>
+              </div>
+            </div>
+          </div>
+
           <div class="bg-base-200 rounded-xl p-8 basis-2/3">
-            <input ref="photo" type="file" class="hidden" @change="upload" />
+            <input
+              ref="photo"
+              type="file"
+              accept="image/*"
+              class="hidden"
+              @change="crop"
+            />
             <form id="recruitForm" @submit.prevent="update">
               <div class="form-control mb-5">
                 <label class="label">
@@ -116,13 +159,19 @@
 </template>
 
 <script>
+import VueCropper from 'vue-cropperjs'
+import 'cropperjs/dist/cropper.css'
+
 export default {
   name: 'PengaturanProfilPage',
+  components: { VueCropper },
   middleware: 'authenticated',
 
   data() {
     return {
       photo: '',
+      preview: '',
+      showCropModal: false,
       state: {
         isUploading: false,
         isUpdating: false,
@@ -160,22 +209,51 @@ export default {
           this.state.isUpdating = false
         })
     },
-    async upload() {
-      this.state.isUploading = true
-      this.state.error = ''
-      const formData = new FormData()
-      formData.append('photo', this.$refs.photo.files[0])
+    upload() {
+      this.$refs.cropper.getCroppedCanvas().toBlob((blob) => {
+        this.state.isUploading = true
+        this.state.error = ''
 
-      await this.$axios
-        .post(`${this.$config.apiURL}/user/photo`, formData)
-        .then((response) => {
-          this.user.photo = response.data.photo
-          this.state.isUploading = false
-        })
-        .catch((error) => {
-          this.state.error = error.response.data
-          this.state.isUploading = false
-        })
+        const formData = new FormData()
+        formData.append('photo', blob)
+
+        this.$axios
+          .post(`${this.$config.apiURL}/user/photo`, formData)
+          .then((response) => {
+            this.user.photo = response.data.photo
+            this.state.isUploading = false
+          })
+          .catch((error) => {
+            this.state.error = error.response.data
+            this.state.isUploading = false
+          })
+      })
+      this.$refs.photo.value = null
+    },
+    batal() {
+      this.$refs.photo.value = null
+    },
+    crop() {
+      const file = this.$refs.photo.files[0]
+      if (!file.type.includes('image/')) {
+        alert('Silahkan pilih file berformat gambar')
+
+        return
+      }
+
+      this.showCropModal = true
+
+      if (typeof FileReader === 'function') {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          this.imgSrc = event.target.result
+          // rebuild cropperjs with the updated source
+          this.$refs.cropper.replace(event.target.result)
+        }
+        reader.readAsDataURL(file)
+      } else {
+        alert('Sorry, FileReader API not supported')
+      }
     },
   },
 }
