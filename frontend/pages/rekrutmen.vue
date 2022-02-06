@@ -3,29 +3,12 @@
     <Navbar />
     <div class="hero min-h-screen mt-[-9rem]">
       <div
-        class="
-          flex-col
-          justify-center
-          hero-content
-          lg:flex-row-reverse
-          min-w-full
-          px-5
-          md:px-14
-          z-10
-          pt-24
-        "
+        class="flex-col justify-center hero-content lg:flex-row-reverse min-w-full px-5 md:px-14 z-10 pt-24"
       >
         <img src="/assets/img/recruitment.svg" class="p-5 md:max-w-lg" />
         <div class="w-full md:pl-10 text-center md:text-left">
           <h1
-            class="
-              mb-5
-              text-5xl
-              font-bold
-              tracking-wide
-              text-slate-100
-              indicator
-            "
+            class="mb-5 text-5xl font-bold tracking-wide text-slate-100 indicator"
           >
             <div class="indicator-item badge badge-error z-50">DITUTUP</div>
             <span class="font-light">REKRUTMEN</span>&nbsp;ANGGOTA
@@ -36,11 +19,7 @@
           </p>
           <NuxtLink
             to="#persyaratan"
-            class="
-              btn btn-primary
-              tracking-wider
-              hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-            "
+            class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
             >Lihat Persyaratan &nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -61,17 +40,7 @@
 
     <div id="persyaratan" class="hero min-h-screen bg-base-300">
       <div
-        class="
-          flex-col
-          justify-center
-          hero-content
-          lg:flex-row
-          min-w-full
-          px-5
-          md:px-14
-          z-10
-          pt-24
-        "
+        class="flex-col justify-center hero-content lg:flex-row min-w-full px-5 md:px-14 z-10 pt-24"
       >
         <img src="/assets/img/persyaratan.svg" class="p-5 md:max-w-lg" />
         <div class="w-full md:pl-10 text-center md:text-left">
@@ -84,11 +53,7 @@
           </p>
           <NuxtLink
             to="#formulir"
-            class="
-              btn btn-primary
-              tracking-wider
-              hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-            "
+            class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
             >Daftar &nbsp;
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -179,15 +144,7 @@
     >
       <form id="recruitForm" class="w-full" @submit.prevent="kirim">
         <div
-          class="
-            text-center
-            hero-content
-            grid grid-cols-12
-            gap-10
-            w-full
-            m-auto
-            items-baseline
-          "
+          class="text-center hero-content grid grid-cols-12 gap-10 w-full m-auto items-baseline"
         >
           <h1 class="mb-10 text-5xl font-bold col-span-12 uppercase">
             <span class="font-light"> Formulir </span> Rekrutmen
@@ -595,11 +552,15 @@
                   >
                 </label>
                 <input
-                  id=""
+                  ref="pas_photo"
                   type="file"
                   class="input input-bordered h-full"
-                  name=""
+                  :class="state.error.pas_photo ? 'input-error' : ''"
+                  @input="
+                    state.error.pas_photo ? (state.error.pas_photo = '') : ''
+                  "
                 />
+                <InputErrorLabel :error="state.error.pas_photo" />
               </div>
               <div class="form-control w-full mb-5">
                 <label class="label">
@@ -608,11 +569,13 @@
                   >
                 </label>
                 <input
-                  id=""
+                  ref="karmas"
                   type="file"
                   class="input input-bordered h-full"
-                  name=""
+                  :class="state.error.karmas ? 'input-error' : ''"
+                  @input="state.error.karmas ? (state.error.karmas = '') : ''"
                 />
+                <InputErrorLabel :error="state.error.karmas" />
               </div>
               <div class="form-control w-full mb-5">
                 <label class="label">
@@ -621,22 +584,20 @@
                   >
                 </label>
                 <input
-                  id=""
+                  ref="krs"
                   type="file"
                   class="input input-bordered h-full"
-                  name=""
+                  :class="state.error.krs ? 'input-error' : ''"
+                  @input="state.error.krs ? (state.error.krs = '') : ''"
                 />
+                <InputErrorLabel :error="state.error.krs" />
               </div>
             </div>
 
             <div class="form-control mt-10">
               <button
                 type="submit"
-                class="
-                  btn btn-primary
-                  tracking-widest
-                  hover:shadow-lg hover:shadow-white/50
-                "
+                class="btn btn-primary tracking-widest hover:shadow-lg hover:shadow-white/50"
                 :disabled="state.isSubmitting"
               >
                 <span v-if="!state.isSubmitting" class="flex flex-row">
@@ -712,14 +673,29 @@ export default {
   methods: {
     async kirim() {
       this.state.isSubmitting = true
+
+      const formData = new FormData()
+      formData.append('pas_photo', this.$refs.pas_photo.files[0])
+      formData.append('karmas', this.$refs.karmas.files[0])
+      formData.append('krs', this.$refs.krs.files[0])
+      for (const k in this.data) {
+        if (typeof this.data[k] !== 'function') {
+          // alert('Key is ' + k + ', value is' + this.data[k])
+          formData.append(k, this.data[k])
+        }
+      }
+      // formData.append(this.data)
+
       await this.$axios
-        .post(`${this.$config.apiURL}/recruit`, this.data)
+        .post(`${this.$config.apiURL}/recruit`, formData)
         .then((response) => {
           this.status_recruit = 'recruit_sudah_submit'
           this.state.isSubmitting = false
           window.location.href = '#formulir'
         })
-        .catch(() => {
+        .catch((error) => {
+          console.log(error.response.data)
+          this.state.error = error.response.data
           this.state.isSubmitting = false
         })
     },
