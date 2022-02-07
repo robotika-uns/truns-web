@@ -60,7 +60,7 @@
                   ref="cropper"
                   :src="preview"
                   :aspect-ratio="1 / 1"
-                  :zoomOnWheel="false"
+                  :zoom-on-wheel="false"
                 >
                 </VueCropper>
                 <!-- <img
