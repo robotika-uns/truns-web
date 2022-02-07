@@ -56,7 +56,12 @@
                   :src="user.photo"
                   style="display: block; max-width: 100%"
                 /> -->
-                <VueCropper ref="cropper" :src="preview" :aspect-ratio="1 / 1">
+                <VueCropper
+                  ref="cropper"
+                  :src="preview"
+                  :aspect-ratio="1 / 1"
+                  :zoomOnWheel="false"
+                >
                 </VueCropper>
                 <!-- <img
                   :src="
