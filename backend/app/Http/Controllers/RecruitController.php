@@ -172,6 +172,7 @@ class RecruitController extends BaseController
 
         // Ambil inputan user_id.
         $user_id = $this->request->input('user_id');
+        $user = User::find($user_id);
 
         // Cari recruit berdasarkan user_id.
         $recruit = Recruit::where('user_id', $user_id)
@@ -191,6 +192,9 @@ class RecruitController extends BaseController
         $journey = Journey::create($this->request->all());
         $journey->tanggal_gabung = $journey->created_at;
         $journey->save();
+
+        $user->tipe = "anggota";
+        $user->save();
 
         Notification::send(
             $this->request->auth,

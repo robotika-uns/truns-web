@@ -141,13 +141,13 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
     // Create Recruit
     $router->patch('/terima', [
         'uses' => 'RecruitController@terima',
-        'middleware' => ['authenticated', 'verified-email']
+        'middleware' => ['authenticated', 'verified-email', 'moderator']
     ]);
 
     // Create Recruit
     $router->patch('/tolak', [
         'uses' => 'RecruitController@tolak',
-        'middleware' => ['authenticated', 'verified-email']
+        'middleware' => ['authenticated', 'verified-email', 'moderator']
     ]);
 });
 
