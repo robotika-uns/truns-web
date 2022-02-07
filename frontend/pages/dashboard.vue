@@ -13,48 +13,81 @@
     </div>
     <div class="px-24 pt-14 grid grid-cols-12 w-full gap-10">
       <div class="col-span-4">
-        <div class="card card-bordered bg-base-200">
-          <h2
-            class="card-title uppercase font-light bg-base-300 tracking-widest text-3xl py-5 px-8"
-          >
-            Pengumuman
-          </h2>
-          <div class="card-body">
-            <div class="alert alert-info">
-              <div class="flex-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#2196f3"
-                  class="flex-shrink-0 w-6 h-6 mx-2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                <label>
-                  <h4><b>Lorem ipsum dolor sit!</b></h4>
-                  <p class="text-sm text-base-content text-opacity-60">
-                    Lorem ipsum dolor sit amet, consectetur adip! Lorem ipsum
-                    dolor sit amet, consectetur adip!Lorem ipsum dolor sit amet,
-                    consectetur adip!Lorem ipsum dolor sit amet, consectetur
-                    adip!Lorem ipsum dolor sit amet, consectetur adip!Lorem
-                    ipsum dolor sit amet, consectetur adip!
-                  </p>
-                </label>
-              </div>
-            </div>
+        <div
+          class="alert alert-primary border-2 border-primary/20 hover:shadow-lg hover:shadow-primary/20 transition-all ease-in-out duration-300"
+        >
+          <div class="flex-1 p-2">
+            <i class="ri-spy-line ri-lg flex-shrink-0 mt-2 mr-3"></i>
+            <label>
+              <h4 class="text-lg uppercase"><b>Untuk Outsider</b></h4>
+              <p class="leading-snug text-base-content">
+                Selamat datang! Outsider adalah non-anggota UKM Robotika UNS,
+                namun tetap bisa ikut berkontribusi pada fordis.
+              </p>
+              <!-- <p class="text-sm text-base-content text-opacity-60 mt-2">
+                Diperbaharui
+              </p> -->
+            </label>
           </div>
         </div>
+
+        <div class="h-10 ml-16 border-l-2 border-info/10"></div>
+
+        <div
+          class="alert alert-info border-2 border-info/20 hover:shadow-lg hover:shadow-info/20 transition-all ease-in-out duration-300"
+        >
+          <div class="flex-1 p-2">
+            <i class="ri-user-add-line ri-lg flex-shrink-0 mt-2 mr-3"></i>
+            <label>
+              <h4 class="text-lg uppercase"><b>Untuk Calon Anggota</b></h4>
+              <p class="leading-snug text-base-content">
+                Untuk calon anggota UKM Robotika UNS yang ingin mendaftar
+                menjadi anggota UKM Robotika UNS, silahkan klik
+                <NuxtLink to="/rekrutmen" class="link"><b>disini</b></NuxtLink
+                >.
+              </p>
+              <!-- <p class="text-sm text-base-content text-opacity-60 mt-2">
+                Diperbaharui
+              </p> -->
+            </label>
+          </div>
+        </div>
+
+        <div class="h-10 ml-16 border-l-2 border-warning/10"></div>
+
+        <div
+          class="alert alert-warning border-2 border-warning/20 hover:shadow-lg hover:shadow-warning/20 transition-all ease-in-out duration-300"
+        >
+          <div class="flex-1 p-2">
+            <i class="ri-team-line ri-lg flex-shrink-0 mt-2 mr-3"></i>
+            <label>
+              <h4 class="text-lg uppercase"><b>Untuk Anggota & Alumni</b></h4>
+              <p class="leading-snug text-base-content">
+                Untuk anggota aktif atau alumni, silahkan hubungi moderator atau
+                administrator website UKM Robotika UNS.
+              </p>
+              <!-- <p class="text-sm text-base-content text-opacity-60 mt-2">
+                Diperbaharui
+              </p> -->
+            </label>
+          </div>
+        </div>
+
+        <!-- <div class="card card-bordered bg-base-200">
+          <h2
+            class="card-title uppercase font-light bg-base-300 tracking-widest text-2xl py-3 px-8"
+          >
+            Informasi
+          </h2>
+          <div class="card-body">
+
+          </div>
+        </div> -->
       </div>
       <div class="col-span-8">
         <div class="card card-bordered bg-base-200">
           <h2
-            class="card-title uppercase font-light bg-base-300 tracking-widest text-3xl py-5 px-8 border-b-2 border-b-primary/10"
+            class="card-title uppercase font-light bg-base-300 tracking-widest text-2xl py-3 px-8 border-b-2 border-b-primary/10"
           >
             Notifikasi
           </h2>
@@ -119,6 +152,8 @@
         </div>
       </div>
     </div>
+
+    <Footer />
   </div>
 </template>
 
