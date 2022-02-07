@@ -39,6 +39,9 @@ class RecruitController extends BaseController
         $this->jwt_key = env("JWT_SECRET");
     }
 
+
+
+
     /**
      * Create Method
      *
@@ -117,6 +120,22 @@ class RecruitController extends BaseController
             'tag' => 'formulir_terkirim',
             'pesan' => trans('recruit.formulir_terkirim'),
         ], 200);
+    }
+
+
+
+
+    /**
+     * Read Method
+     *
+     * Untuk mengambil semua data recruit.
+     *
+     */
+    public function read()
+    {
+        $recruit = Recruit::with('user')->paginate(10);
+
+        return $recruit;
     }
 
 

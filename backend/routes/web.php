@@ -132,6 +132,12 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
         'middleware' => ['authenticated', 'verified-email']
     ]);
 
+    // Read Recruit
+    $router->get('/', [
+        'uses' => 'RecruitController@read',
+        'middleware' => ['authenticated', 'verified-email', 'moderator']
+    ]);
+
     // Create Recruit
     $router->get('check', [
         'uses' => 'RecruitController@check',
