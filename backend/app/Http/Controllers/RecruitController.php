@@ -135,7 +135,7 @@ class RecruitController extends BaseController
             ->first();
 
         // Jika recruit sudah mengirim formulir sebelumnya.
-        if ($recruit->status = 'diproses') {
+        if ($recruit->status == 'diproses') {
             return response()->json([
                 'tag' => 'recruit_sudah_submit',
                 'pesan' => trans('recruit.sudah_submit'),
@@ -143,7 +143,7 @@ class RecruitController extends BaseController
         }
 
         // Jika recruit sudah diterima.
-        if ($recruit->status = 'diterima') {
+        if ($recruit->status == 'diterima') {
             return response()->json([
                 'tag' => 'recruit_sudah_diterima',
                 'pesan' => trans('recruit.sudah_diterima'),
