@@ -82,32 +82,37 @@
             </div>
 
             <div
-              v-for="notification in notifications"
+              v-for="(notification, index) in notifications"
               :key="notification.id"
-              class="alert bg-base-100"
             >
-              <div class="flex-1">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="#2196f3"
-                  class="flex-shrink-0 w-6 h-6 mx-2"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                <label>
-                  <!-- <h4>Lorem <b>ipsum</b> dolor sit!</h4> -->
-                  <h4>{{ notification.data.pesan }}</h4>
-                  <p class="text-sm text-base-content text-opacity-60">
-                    2 menit yang lalu.
-                  </p>
-                </label>
+              <div
+                v-if="!(index == 0)"
+                class="h-5 ml-16 border-l-2 border-primary/10"
+              ></div>
+              <div
+                class="alert bg-base-100 border-2 border-primary/10 hover:shadow-lg hover:shadow-black transition-all ease-in-out duration-300"
+              >
+                <div class="flex-1">
+                  <i
+                    v-if="
+                      notification.type ===
+                      'App\\Notifications\\RecruitNotification'
+                    "
+                    class="ri-newspaper-fill flex-shrink w-6 h-6 mx-2"
+                    :class="{
+                      'text-info': notification.data.slug.status === 'diproses',
+                      'text-error': notification.data.slug.status === 'ditolak',
+                      'text-success':
+                        notification.data.slug.status === 'diterima',
+                    }"
+                  ></i>
+                  <label>
+                    <h4>{{ notification.data.pesan }}</h4>
+                    <p class="text-sm text-base-content text-opacity-60">
+                      {{ tanggal(notification.created_at) }}
+                    </p>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
@@ -118,6 +123,9 @@
 </template>
 
 <script>
+import { parseJSON, formatRelative } from 'date-fns'
+import { id } from 'date-fns/locale'
+
 export default {
   name: 'DashboardPage',
   middleware: 'authenticated',
@@ -148,6 +156,15 @@ export default {
     return {
       title: `Dashboard | ${this.$config.appName}`,
     }
+  },
+  methods: {
+    tanggal(date) {
+      // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+      return formatRelative(new Date(parseJSON(date)), new Date(), {
+        addSuffix: true,
+        locale: id,
+      })
+    },
   },
 }
 </script>

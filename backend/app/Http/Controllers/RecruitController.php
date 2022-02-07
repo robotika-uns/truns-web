@@ -13,8 +13,11 @@ namespace App\Http\Controllers;
 
 use App\Helpers\UploadGambar;
 use App\Recruit;
+use App\Journey;
 use App\User;
+use App\Notifications\RecruitNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class RecruitController extends BaseController
@@ -100,7 +103,14 @@ class RecruitController extends BaseController
         $recruit->fill($this->request->except(['krs', 'karmas', 'pas_photo']));
         $recruit->save();
 
-        // Notification::send($this->request->auth, new RecruitNotification($recruit, ['tim' => 'sambergeni']));
+        Notification::send(
+            $this->request->auth,
+            new RecruitNotification($recruit, [
+                'tim'       => $recruit->tim_prioritas,
+                'divisi'    => $recruit->divisi_prioritas,
+                'status'    => 'diproses',
+            ])
+        );
 
         // Kirim respon [200] 'formulir_terkirim'.
         return response()->json([
@@ -108,6 +118,9 @@ class RecruitController extends BaseController
             'pesan' => trans('recruit.formulir_terkirim'),
         ], 200);
     }
+
+
+
 
     /**
      * Check Method
@@ -117,38 +130,120 @@ class RecruitController extends BaseController
      */
     public function check()
     {
-        // Cari recruit berdasarkan user_id dan masih berstatus proses.
+        // Cari recruit berdasarkan user_id.
         $recruit = Recruit::where('user_id', $this->request->auth->id)
-            ->where('status', 'diproses')
             ->first();
 
-        // Jika user sudah mengirim formulir sebelumnya.
-        if ($recruit) {
-            // Kirim respon [403] 'recruit_sudah_submit'.
+        // Jika recruit sudah mengirim formulir sebelumnya.
+        if ($recruit->status = 'diproses') {
             return response()->json([
                 'tag' => 'recruit_sudah_submit',
                 'pesan' => trans('recruit.sudah_submit'),
             ], 403);
         }
 
-        // Cari recruit berdasarkan user_id dan statusnya sudah diterima.
-        $recruit = Recruit::where('user_id', $this->request->auth->id)
-            ->where('status', 'diterima')
-            ->first();
-
-        // Jika user sudah mengirim formulir sebelumnya.
-        if ($recruit) {
-            // Kirim respon [403] 'recruit_sudah_diterima'.
+        // Jika recruit sudah diterima.
+        if ($recruit->status = 'diterima') {
             return response()->json([
                 'tag' => 'recruit_sudah_diterima',
                 'pesan' => trans('recruit.sudah_diterima'),
             ], 403);
         }
 
+        // Selain itu semua diatas,
         // Kirim respon [200] 'recruit_belum_submit'.
         return response()->json([
             'tag' => 'recruit_belum_submit',
             'pesan' => trans('recruit.belum_submit'),
+        ], 200);
+    }
+
+
+
+
+    /**
+     * Terima Method
+     *
+     * Untuk menerima recruit.
+     *
+     */
+    public function terima()
+    {
+
+        // Ambil inputan user_id.
+        $user_id = $this->request->input('user_id');
+
+        // Cari recruit berdasarkan user_id.
+        $recruit = Recruit::where('user_id', $user_id)
+            ->first();
+
+        // Jika recruit sudah diterima.
+        if ($recruit->status == 'diterima') {
+            return response()->json([
+                'tag' => 'recruit_sudah_diterima',
+                'pesan' => trans('recruit.sudah_diterima'),
+            ], 403);
+        }
+
+        $recruit->status = 'diterima';
+        $recruit->save();
+
+        $journey = Journey::create($this->request->all());
+        $journey->tanggal_gabung = $journey->created_at;
+        $journey->save();
+
+        Notification::send(
+            $this->request->auth,
+            new RecruitNotification($recruit, [
+                'tim'       => $journey->tim,
+                'divisi'    => $journey->divisi,
+                'status'    => 'diterima',
+            ])
+        );
+
+        return response()->json([
+            'tag' => 'recruit_berhasil_diterima',
+            'pesan' => trans('recruit.berhasil_diterima'),
+        ], 200);
+    }
+
+    /**
+     * Terima Method
+     *
+     * Untuk menerima recruit.
+     *
+     */
+    public function tolak()
+    {
+
+        // Ambil inputan user_id.
+        $user_id = $this->request->input('user_id');
+
+        // Cari recruit berdasarkan user_id.
+        $recruit = Recruit::where('user_id', $user_id)
+            ->first();
+
+        // Jika recruit sudah ditolak.
+        if ($recruit->status == 'ditolak') {
+            return response()->json([
+                'tag' => 'recruit_sudah_ditolak',
+                'pesan' => trans('recruit.sudah_ditolak'),
+            ], 403);
+        }
+
+        $recruit->status = 'ditolak';
+        $recruit->save();
+
+        Notification::send(
+            $this->request->auth,
+            new RecruitNotification($recruit, [
+                'status'    => 'ditolak',
+            ])
+        );
+
+        return response()->json([
+            'tag' => 'recruit_berhasil_ditolak',
+            'pesan' => trans('recruit.berhasil_ditolak'),
         ], 200);
     }
 }

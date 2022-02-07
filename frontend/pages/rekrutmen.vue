@@ -680,11 +680,9 @@ export default {
       formData.append('krs', this.$refs.krs.files[0])
       for (const k in this.data) {
         if (typeof this.data[k] !== 'function') {
-          // alert('Key is ' + k + ', value is' + this.data[k])
           formData.append(k, this.data[k])
         }
       }
-      // formData.append(this.data)
 
       await this.$axios
         .post(`${this.$config.apiURL}/recruit`, formData)
@@ -694,7 +692,6 @@ export default {
           window.location.href = '#formulir'
         })
         .catch((error) => {
-          console.log(error.response.data)
           this.state.error = error.response.data
           this.state.isSubmitting = false
         })
