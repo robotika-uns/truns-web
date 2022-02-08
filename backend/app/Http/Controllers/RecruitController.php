@@ -189,13 +189,11 @@ class RecruitController extends BaseController
     public function terima()
     {
 
-        // Ambil inputan user_id.
-        $user_id = $this->request->input('user_id');
-        $user = User::find($user_id);
+        // Ambil inputan id.
+        $id = $this->request->input('id');
 
-        // Cari recruit berdasarkan user_id.
-        $recruit = Recruit::where('user_id', $user_id)
-            ->first();
+        // Cari recruit berdasarkan id.
+        $recruit = Recruit::find($id);
 
         // Jika recruit sudah diterima.
         if ($recruit->status == 'diterima') {
@@ -205,24 +203,27 @@ class RecruitController extends BaseController
             ], 403);
         }
 
+        $recruit->tim_diterima = $this->request->input('tim');
+        $recruit->divisi_diterima = $this->request->input('divisi');
         $recruit->status = 'diterima';
         $recruit->save();
 
-        $journey = Journey::create($this->request->all());
-        $journey->tanggal_gabung = $journey->created_at;
-        $journey->save();
+        // $journey = Journey::create($this->request->all());
+        // $journey->tanggal_gabung = $journey->created_at;
+        // $journey->save();
 
+        $user = User::find($recruit->user_id);
         $user->tipe = "anggota";
         $user->save();
 
-        Notification::send(
-            $this->request->auth,
-            new RecruitNotification($recruit, [
-                'tim'       => $journey->tim,
-                'divisi'    => $journey->divisi,
-                'status'    => 'diterima',
-            ])
-        );
+        // Notification::send(
+        //     $this->request->auth,
+        //     new RecruitNotification($recruit, [
+        //         'tim'       => $journey->tim,
+        //         'divisi'    => $journey->divisi,
+        //         'status'    => 'diterima',
+        //     ])
+        // );
 
         return response()->json([
             'tag' => 'recruit_berhasil_diterima',
@@ -239,12 +240,11 @@ class RecruitController extends BaseController
     public function tolak()
     {
 
-        // Ambil inputan user_id.
-        $user_id = $this->request->input('user_id');
+        // Ambil inputan id.
+        $id = $this->request->input('id');
 
         // Cari recruit berdasarkan user_id.
-        $recruit = Recruit::where('user_id', $user_id)
-            ->first();
+        $recruit = Recruit::find($id);
 
         // Jika recruit sudah ditolak.
         if ($recruit->status == 'ditolak') {
@@ -255,14 +255,16 @@ class RecruitController extends BaseController
         }
 
         $recruit->status = 'ditolak';
+        $recruit->tim_diterima = null;
+        $recruit->divisi_diterima = null;
         $recruit->save();
 
-        Notification::send(
-            $this->request->auth,
-            new RecruitNotification($recruit, [
-                'status'    => 'ditolak',
-            ])
-        );
+        // Notification::send(
+        //     $this->request->auth,
+        //     new RecruitNotification($recruit, [
+        //         'status'    => 'ditolak',
+        //     ])
+        // );
 
         return response()->json([
             'tag' => 'recruit_berhasil_ditolak',
