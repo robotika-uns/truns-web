@@ -153,20 +153,22 @@ class RecruitController extends BaseController
         $recruit = Recruit::where('user_id', $this->request->auth->id)
             ->first();
 
-        // Jika recruit sudah mengirim formulir sebelumnya.
-        if ($recruit->status == 'diproses') {
-            return response()->json([
-                'tag' => 'recruit_sudah_submit',
-                'pesan' => trans('recruit.sudah_submit'),
-            ], 403);
-        }
+        if ($recruit) {
+            // Jika recruit sudah mengirim formulir sebelumnya.
+            if ($recruit->status == 'diproses') {
+                return response()->json([
+                    'tag' => 'recruit_sudah_submit',
+                    'pesan' => trans('recruit.sudah_submit'),
+                ], 403);
+            }
 
-        // Jika recruit sudah diterima.
-        if ($recruit->status == 'diterima') {
-            return response()->json([
-                'tag' => 'recruit_sudah_diterima',
-                'pesan' => trans('recruit.sudah_diterima'),
-            ], 403);
+            // Jika recruit sudah diterima.
+            if ($recruit->status == 'diterima') {
+                return response()->json([
+                    'tag' => 'recruit_sudah_diterima',
+                    'pesan' => trans('recruit.sudah_diterima'),
+                ], 403);
+            }
         }
 
         // Selain itu semua diatas,
@@ -212,9 +214,9 @@ class RecruitController extends BaseController
         // $journey->tanggal_gabung = $journey->created_at;
         // $journey->save();
 
-        $user = User::find($recruit->user_id);
-        $user->tipe = "anggota";
-        $user->save();
+        // $user = User::find($recruit->user_id);
+        // $user->tipe = "anggota";
+        // $user->save();
 
         // Notification::send(
         //     $this->request->auth,
