@@ -285,34 +285,9 @@
 
         <div class="grid grid-cols-12 gap-5 mt-5">
           <div class="col-span-6">
-            <div class="avatar">
-              <div class="w-full">
-                <img :src="selectedRecruits.pas_photo" class="rounded-xl" />
-              </div>
+            <div class="avatar w-full">
+              <img :src="selectedRecruits.pas_photo" class="rounded-xl" />
             </div>
-
-            <!-- <div
-              v-if="selectedRecruits.tim_diterima"
-              class="flex bg-base-300/50 p-5 rounded-xl my-5"
-            >
-              <img
-                :src="`/assets/img/tim/${selectedRecruits.tim_diterima}.png`"
-                class="w-28 pr-3"
-              />
-              <div class="card-title my-auto">
-                <div class="font-light text-lg tracking-widest uppercase">
-                  <div class="badge badge-primary align-middle font-bold">
-                    diterima di
-                  </div>
-                </div>
-                <span class="uppercase tracking-widest text-3xl">
-                  {{ selectedRecruits.tim_diterima }}
-                </span>
-                <div class="font-light text-lg tracking-widest uppercase">
-                  {{ selectedRecruits.divisi_diterima }}
-                </div>
-              </div>
-            </div> -->
 
             <div class="grid grid-cols-2 gap-5 my-5">
               <a
@@ -386,16 +361,6 @@
                   disabled
                 ></textarea>
               </div>
-              <!-- <label class="label">
-                <span class="label-text uppercase tracking-widest"
-                  >Alasan Memilih</span
-                >
-              </label>
-              <div class="flex bg-base-300/50 p-7 rounded-xl">
-                <p class="text-white text-opacity-50">
-                  {{ selectedRecruits.alasan }}
-                </p>
-              </div> -->
             </div>
           </div>
           <div class="col-span-6 bg-base-300 rounded-xl p-5">

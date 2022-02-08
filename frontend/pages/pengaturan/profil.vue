@@ -38,9 +38,6 @@
             </div>
           </div>
 
-          <!-- <label for="my-modal-2" class="btn btn-primary modal-button hidden"
-            >open modal</label
-          > -->
           <input
             id="cropModal"
             v-model="showCropModal"
@@ -50,12 +47,6 @@
           <div class="modal">
             <div class="modal-box">
               <div>
-                <!-- {{ $refs.photo ? $refs.photo.files[0] : '' }} -->
-                <!-- <img
-                  id="image"
-                  :src="user.photo"
-                  style="display: block; max-width: 100%"
-                /> -->
                 <VueCropper
                   ref="cropper"
                   :src="preview"
@@ -63,12 +54,6 @@
                   :zoom-on-wheel="false"
                 >
                 </VueCropper>
-                <!-- <img
-                  :src="
-                    $refs.photo ? URL.createObjectURL($refs.photo.files[0]) : ''
-                  "
-                  alt=""
-                /> -->
               </div>
               <div class="modal-action">
                 <label for="cropModal" class="btn btn-primary" @click="upload"
