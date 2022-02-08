@@ -554,8 +554,10 @@
                 <input
                   ref="pas_photo"
                   type="file"
+                  accept="image/*"
                   class="input input-bordered h-full"
                   :class="state.error.pas_photo ? 'input-error' : ''"
+                  @change="crop"
                   @input="
                     state.error.pas_photo ? (state.error.pas_photo = '') : ''
                   "
@@ -637,16 +639,49 @@
       </form>
     </div>
 
+    <input
+      id="cropModal"
+      v-model="showCropModal"
+      type="checkbox"
+      class="modal-toggle"
+    />
+    <div class="modal">
+      <div class="modal-box">
+        <div>
+          <VueCropper
+            ref="cropper"
+            :src="preview"
+            :aspect-ratio="3 / 4"
+            :zoom-on-wheel="false"
+          >
+          </VueCropper>
+        </div>
+        <div class="modal-action">
+          <label for="cropModal" class="btn btn-primary" @click="simpanPasPhoto"
+            >Crop</label
+          >
+          <label for="cropModal" class="btn" @click="batal">Batal</label>
+        </div>
+      </div>
+    </div>
+
     <Footer />
   </div>
 </template>
 
 <script>
+import VueCropper from 'vue-cropperjs'
+import 'cropperjs/dist/cropper.css'
+
 export default {
   name: 'RekrutmenPage',
+  components: { VueCropper },
   data: () => ({
     data: {},
     status_recruit: '',
+    preview: '',
+    pas_photo: null,
+    showCropModal: false,
     state: {
       isSubmitting: false,
       error: '',
@@ -675,7 +710,7 @@ export default {
       this.state.isSubmitting = true
 
       const formData = new FormData()
-      formData.append('pas_photo', this.$refs.pas_photo.files[0])
+      formData.append('pas_photo', this.pas_photo)
       formData.append('karmas', this.$refs.karmas.files[0])
       formData.append('krs', this.$refs.krs.files[0])
       for (const k in this.data) {
@@ -695,6 +730,40 @@ export default {
           this.state.error = error.response.data
           this.state.isSubmitting = false
         })
+    },
+    simpanPasPhoto() {
+      this.$refs.cropper.getCroppedCanvas().toBlob((blob) => {
+        this.pas_photo = blob
+        this.showCropModal = false
+      })
+    },
+    batal() {
+      this.$refs.pas_photo.value = null
+      this.pas_photo = null
+    },
+    crop() {
+      const file = this.$refs.pas_photo.files[0]
+      if (!file.type.includes('image/')) {
+        this.$refs.pas_photo.value = null
+
+        alert('Silahkan pilih file berformat gambar')
+
+        return
+      }
+
+      this.showCropModal = true
+
+      if (typeof FileReader === 'function') {
+        const reader = new FileReader()
+        reader.onload = (event) => {
+          this.imgSrc = event.target.result
+          // rebuild cropperjs with the updated source
+          this.$refs.cropper.replace(event.target.result)
+        }
+        reader.readAsDataURL(file)
+      } else {
+        alert('Sorry, FileReader API not supported')
+      }
     },
   },
 }
