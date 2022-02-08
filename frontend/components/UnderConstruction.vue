@@ -2,19 +2,12 @@
   <div>
     <div class="hero min-h-screen mt-[-9rem]">
       <div
-        class="
-          flex-col
-          justify-center
-          hero-content
-          lg:flex-row-reverse
-          min-w-full
-          px-5
-          md:px-14
-          z-10
-          pt-24
-        "
+        class="flex-col justify-center hero-content lg:flex-row-reverse min-w-full px-5 md:px-14 z-10 pt-24"
       >
-        <img src="/assets/img/underconstruction.svg" class="p-5 md:max-w-lg" />
+        <img
+          src="/assets/img/illustration/underconstruction.svg"
+          class="p-5 md:max-w-lg"
+        />
         <div class="w-full md:pl-10 text-center md:text-left">
           <h1 class="mb-5 text-5xl font-bold tracking-wide text-slate-100">
             <span class="font-light">UNDER</span> CONSTRUCTION
@@ -25,11 +18,7 @@
           </p>
           <NuxtLink
             to="/"
-            class="
-              btn btn-primary
-              tracking-wider
-              hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-            "
+            class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

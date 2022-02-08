@@ -460,6 +460,7 @@ export default {
       },
     }
   },
+
   async fetch() {
     this.state.isFetching = true
     await this.$axios
@@ -472,6 +473,7 @@ export default {
       })
     this.state.isFetching = false
   },
+
   head() {
     return {
       title: this.user.name
@@ -481,6 +483,7 @@ export default {
         : `User tidak ditemukan | ${this.$config.appName}`,
     }
   },
+
   methods: {
     bulan(tanggal) {
       return format(new Date(tanggal), 'MMMM', { locale: id })
@@ -494,22 +497,6 @@ export default {
       if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + 'jt'
       if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + 'm'
       if (n >= 1e12) return +(n / 1e12).toFixed(1) + 'T'
-    },
-    singkatNama(name) {
-      const singkat = [name[0]]
-      for (let i = 0; i < name.length; i++) {
-        if (name[i] === ' ') {
-          singkat.push(name[i + 1])
-        }
-      }
-      const hasil = singkat
-        .map((el) => el.toUpperCase())
-        .join('. ')
-        .substring(6)
-
-      const first2 = name.split(' ').slice(0, 2).join(' ')
-      const lastdot = hasil ? '.' : ''
-      return first2 + ' ' + hasil + lastdot
     },
   },
 }

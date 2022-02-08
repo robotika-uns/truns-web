@@ -22,7 +22,7 @@ body {
 #scrollToTop {
   display: none;
   position: fixed;
-  bottom: 20px; 
+  bottom: 20px;
   right: 20px;
   @apply btn btn-primary z-50;
 }
@@ -54,9 +54,9 @@ body {
   top: -150px;
   visibility: hidden;
 }
-  
+
 ::-webkit-scrollbar {
-  width: 2px;
+  width: 4px;
   height: 10px;
 }
 
@@ -69,29 +69,30 @@ body {
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    -webkit-box-shadow: 0 0 0 30px #16181d inset !important;
-    -webkit-text-fill-color: #c7c7c7 !important;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #16181d inset !important;
+  -webkit-text-fill-color: #c7c7c7 !important;
 }
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
-input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
 }
 
 ::-webkit-calendar-picker-indicator {
-    filter: invert(1);
+  filter: invert(1);
 }
 
-::-moz-selection { /* Code for Firefox */
+::-moz-selection {
+  /* Code for Firefox */
   color: black;
   background: #c7c7c7;
 }

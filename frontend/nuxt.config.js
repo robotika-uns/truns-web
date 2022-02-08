@@ -2,18 +2,18 @@ export default {
   // Environment variables
   publicRuntimeConfig: {
     apiURL: process.env.API_URL || 'http://localhost:8000',
-    appName: process.env.APP_NAME || 'UKM Robotika UNS'
+    appName: process.env.APP_NAME || 'UKM Robotika UNS',
   },
 
   loading: {
     color: 'white',
-    height: '1px'
+    height: '1px',
   },
 
   loadingIndicator: {
     name: 'pulse',
     color: '#ffffff',
-    background: '#16181d'
+    background: '#16181d',
   },
 
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -28,40 +28,38 @@ export default {
     htmlAttrs: {
       lang: 'en',
     },
-    meta: [{
-        charset: 'utf-8'
+    meta: [
+      {
+        charset: 'utf-8',
       },
       {
         name: 'viewport',
-        content: 'width=device-width, initial-scale=1'
+        content: 'width=device-width, initial-scale=1',
       },
       {
         hid: 'description',
         name: 'description',
-        content: ''
+        content: '',
       },
       {
         name: 'format-detection',
-        content: 'telephone=no'
+        content: 'telephone=no',
       },
     ],
-    link: [{
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico'
-    }],
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    'remixicon/fonts/remixicon.css',
-    '@/assets/css/main.css',
-  ],
+  css: ['remixicon/fonts/remixicon.css', '@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    '~/plugins/axios'
-  ],
+  plugins: ['~/plugins/axios', '~/plugins/singkat-nama'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -86,7 +84,7 @@ export default {
   },
 
   router: {
-    middleware: 'getuser'
+    middleware: 'getuser',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

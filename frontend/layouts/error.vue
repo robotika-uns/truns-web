@@ -1,66 +1,49 @@
 <template>
   <div>
-    <div v-if="error.statusCode === 404">
-      <div class="hero min-h-screen bg-base-200">
-        <div class="text-center hero-content z-50">
-          <div class="max-w-md">
-            <h1 class="mb-5 text-5xl font-bold">Whoops!</h1>
-            <p class="mb-5 text-slate-400">
-              Halaman yang kamu cari ngga ada nih.
-            </p>
-            <NuxtLink
-              to="/"
-              class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
+    <div class="hero min-h-screen">
+      <div
+        class="flex-col justify-center hero-content lg:flex-row-reverse min-w-full px-5 md:px-14 z-10"
+      >
+        <img
+          :src="`/assets/img/illustration/${error.statusCode}.svg`"
+          class="p-5 md:max-w-lg"
+        />
+        <div class="w-full md:pl-10 text-center md:text-left">
+          <h1
+            class="mb-5 text-5xl font-bold tracking-wide text-slate-100 uppercase"
+          >
+            <span class="font-light">WHOOPS!</span>
+            <span v-if="error.statusCode === 404" class="font-bold"
+              >NOT FOUND.</span
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path
-                  d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 9V8l-4 4 4 4v-3h4v-2h-4z"
-                />
-              </svg>
-              &nbsp; Kembali ke Beranda
-            </NuxtLink>
-          </div>
+            <span v-if="error.statusCode === 403" class="font-bold"
+              >FORBIDDEN.</span
+            >
+          </h1>
+          <p class="mb-5 lg:pr-32 text-white/60 tracking-wide text-2xl">
+            {{
+              error.statusCode === 404
+                ? 'Halaman yang Kamu cari tidak ditemukan.'
+                : ''
+            }}
+            {{
+              error.statusCode === 403
+                ? 'Kamu tidak memiliki akses ke halaman ini.'
+                : ''
+            }}
+            {{ error.statusCode === 500 ? error.message : '' }}
+          </p>
+          <NuxtLink
+            to="/"
+            class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
+          >
+            <i class="ri-arrow-left-line mr-2"></i>
+            Kembali ke Beranda
+          </NuxtLink>
         </div>
       </div>
+      <Wave />
     </div>
-
-    <div v-else>
-      <div class="hero min-h-screen bg-base-200">
-        <div class="text-center hero-content z-50">
-          <div class="max-w-md">
-            <h1 class="mb-5 text-5xl font-bold">Whoops!</h1>
-            <p class="mb-5 text-slate-400">
-              {{ error.message }}
-            </p>
-            <NuxtLink
-              to="/"
-              class="btn btn-primary tracking-wider hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-              >
-                <path fill="none" d="M0 0h24v24H0z" />
-                <path
-                  d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zm0 9V8l-4 4 4 4v-3h4v-2h-4z"
-                />
-              </svg>
-              &nbsp; Kembali ke Beranda
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <Wave />
   </div>
 </template>
 
