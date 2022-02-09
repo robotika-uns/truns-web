@@ -126,7 +126,7 @@
           <p class="mb-5">
             Jangan lupa untuk memasang twibbon di sosmed kamu sebagai salah satu
             persyaratan rekrutmen. Untuk info lebih lanjut silahkan pantau
-            Instagram @robotika.uns atau
+            Instagram @robotika.uns atau Press Release pada website.
           </p>
           <!-- <NuxtLink to="/register" class="btn btn-ghost border-primary/20"
             >Buat Akun</NuxtLink
