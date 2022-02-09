@@ -87,8 +87,7 @@ $app->routeMiddleware([
     'verified-email' => App\Http\Middleware\VerifiedEmailMiddleware::class,
     'unverified-email' => App\Http\Middleware\UnverifiedEmailMiddleware::class,
 
-    'admin' => App\Http\Middleware\AdminMiddleware::class,
-    'moderator' => App\Http\Middleware\ModeratorMiddleware::class,
+    'roles' => App\Http\Middleware\RolesMiddleware::class,
 
 ]);
 

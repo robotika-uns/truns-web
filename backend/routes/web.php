@@ -14,13 +14,6 @@
 
 
 
-use Illuminate\Support\Facades\Hash;
-use Jenssegers\Agent\Agent;
-use Illuminate\Http\Request;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use App\User;
-use Carbon\Carbon;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -135,7 +128,10 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
     // Read Recruit
     $router->get('/', [
         'uses' => 'RecruitController@read',
-        'middleware' => ['authenticated', 'verified-email', 'moderator']
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
     ]);
 
     // Check Recruit
@@ -147,13 +143,19 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
     // Terima Recruit
     $router->patch('/terima', [
         'uses' => 'RecruitController@terima',
-        'middleware' => ['authenticated', 'verified-email', 'moderator']
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
     ]);
 
     // Tolak Recruit
     $router->patch('/tolak', [
         'uses' => 'RecruitController@tolak',
-        'middleware' => ['authenticated', 'verified-email', 'moderator']
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
     ]);
 });
 
