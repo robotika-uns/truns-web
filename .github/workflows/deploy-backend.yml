@@ -54,6 +54,11 @@ jobs:
           password: ${{ secrets.FTP_SITE_PASS}}
           local-dir: "./backend/"
           server-dir: "truns-api/"
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/vendor/**
 
       - name: Migrasi database
         uses: joelwmale/webhook-action@master
