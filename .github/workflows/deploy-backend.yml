@@ -47,18 +47,13 @@ jobs:
         working-directory: ./backend
 
       - name: Sinkronisasi file dengan hosing
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: SamKirkland/FTP-Deploy-Action@4.2.0
         with:
           server: ${{ secrets.FTP_SITE_SERVER}}
           username: ${{ secrets.FTP_SITE_USER}}
           password: ${{ secrets.FTP_SITE_PASS}}
           local-dir: "./backend/"
           server-dir: "truns-api/"
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            **/vendor/**
 
       - name: Migrasi database
         uses: joelwmale/webhook-action@master
