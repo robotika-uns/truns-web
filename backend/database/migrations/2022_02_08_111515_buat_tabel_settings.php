@@ -17,7 +17,7 @@ class BuatTabelSettings extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->text('value');
-            $table->json('roles')->nullabler();
+            $table->longText('roles')->nullable();
             $table->timestamps();
         });
     }
