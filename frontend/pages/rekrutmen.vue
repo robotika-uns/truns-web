@@ -14,11 +14,11 @@
               v-if="!$fetchState.pending"
               class="indicator-item badge"
               :class="{
-                'badge-error': status_recruit === 'recruit.tutup',
-                'badge-success': status_recruit !== 'recruit.tutup',
+                'badge-error': setting['recruit.status'] === 0,
+                'badge-success': setting['recruit.status'] !== 1,
               }"
             >
-              {{ status_recruit === 'recruit.tutup' ? 'TUTUP' : 'BUKA' }}
+              {{ setting['recruit.status'] === 0 ? 'TUTUP' : 'BUKA' }}
             </div>
             <span class="font-light">REKRUTMEN</span>&nbsp;ANGGOTA
           </h1>
@@ -681,6 +681,7 @@ export default {
   data: () => ({
     data: {},
     status_recruit: '',
+    setting: [],
     preview: '',
     pas_photo: null,
     showCropModal: false,
@@ -691,15 +692,23 @@ export default {
   }),
   async fetch() {
     await this.$axios
-      .get(`${this.$config.apiURL}/recruit/check`)
+      .get(`${this.$config.apiURL}/setting/get?name=recruit.status`)
       .then((response) => {
-        this.status_recruit = response.data.tag
-        this.state.isSubmitting = false
+        this.setting['recruit.status'] = parseInt(response.data['recruit.status'])
       })
       .catch((error) => {
         this.status_recruit = error.response.data.tag
-        this.state.isSubmitting = false
       })
+
+    await this.$axios
+      .get(`${this.$config.apiURL}/recruit/check`)
+      .then((response) => {
+        this.status_recruit = response.data.tag
+      })
+      .catch((error) => {
+        this.status_recruit = error.response.data.tag
+      })
+    this.state.isSubmitting = false
   },
   computed: {
     user() {
