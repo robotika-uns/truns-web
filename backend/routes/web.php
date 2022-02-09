@@ -15,7 +15,6 @@
 
 
 
-use App\Notification;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -27,9 +26,8 @@ use Illuminate\Support\Facades\Artisan;
  */
 
 $router->get('/', function () use ($router) {
-    // $response = "Robotika UNS API   <br>" . $router->app->version();
-    // return $response;
-    return Notification::all();
+    $response = "Robotika UNS API   <br>" . $router->app->version();
+    return $response;
 });
 
 
