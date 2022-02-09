@@ -109,7 +109,7 @@ class AuthController extends BaseController
         // Validasi input.
         $this->validate($this->request, [
             'name' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
-            'username' => 'required|alpha_dash|min:8|max:25|unique:users',
+            'username' => 'required|unique:users|regex:/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{0,29}$/',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:64',
         ]);
