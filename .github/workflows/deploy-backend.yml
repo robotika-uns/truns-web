@@ -60,6 +60,11 @@ jobs:
             **/node_modules/**
             **/vendor/**
 
+      - name: Unzip vendor
+        uses: joelwmale/webhook-action@master
+        with:
+          url: ${{ secrets.WEBHOOK_URL_UNZIP }}
+
       - name: Migrasi database
         uses: joelwmale/webhook-action@master
         with:
