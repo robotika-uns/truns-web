@@ -58,7 +58,7 @@ jobs:
             **/.git*
             **/.git*/**
             **/node_modules/**
-            vendor
+            **/vendor/**
 
       - name: Migrasi database
         uses: joelwmale/webhook-action@master
