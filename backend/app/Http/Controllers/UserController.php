@@ -48,9 +48,7 @@ class UserController extends BaseController
         $user = User::where('username', $username)
             ->first();
 
-        // Jika user sudah mengirim formulir sebelumnya.
         if (!$user) {
-            // Kirim respon [403] 'recruit_sudah_submit'.
             return response()->json([
                 'tag' => 'user_tidak_ditemukan',
                 'pesan' => trans('user.tidak_ada'),
@@ -60,7 +58,6 @@ class UserController extends BaseController
         $journey = Journey::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         $user->journey = $journey;
 
-        // Kirim respon [200] 'recruit_belum_submit'.
         return response()->json([
             'tag' => 'user_ditemukan',
             'pesan' => trans('recruit.belum_submit'),
@@ -103,7 +100,6 @@ class UserController extends BaseController
 
         $this->request->auth->update(["photo" => $photo]);
 
-        // Kirim respon [200] 'recruit_belum_submit'.
         return response()->json([
             'tag' => 'upload_sukses',
             'pesan' => 'Foto berhasil diganti.',

@@ -10,7 +10,16 @@
           <h1
             class="mb-5 text-5xl font-bold tracking-wide text-slate-100 indicator"
           >
-            <div class="indicator-item badge badge-error z-50">DITUTUP</div>
+            <div
+              v-if="!$fetchState.pending"
+              class="indicator-item badge"
+              :class="{
+                'badge-error': status_recruit === 'recruit.tutup',
+                'badge-success': status_recruit !== 'recruit.tutup',
+              }"
+            >
+              {{ status_recruit === 'recruit.tutup' ? 'TUTUP' : 'BUKA' }}
+            </div>
             <span class="font-light">REKRUTMEN</span>&nbsp;ANGGOTA
           </h1>
           <p class="mb-5 lg:pr-32 text-white/60 tracking-wide text-2xl">
@@ -92,7 +101,7 @@
     </div>
 
     <div
-      v-if="status_recruit == 'recruit_sudah_diterima'"
+      v-if="status_recruit == 'recruit.accept'"
       id="formulir"
       class="hero min-h-screen bg-base-100"
     >
@@ -102,19 +111,12 @@
           <p class="mb-5">
             Kamu sudah menjadi anggota/alumni UKM Robotika UNS.
           </p>
-          <!-- <NuxtLink to="/register" class="btn btn-ghost border-primary/20"
-            >Buat Akun</NuxtLink
-          >
-          &nbsp;
-          <NuxtLink to="/login" class="btn btn-primary tracking-widest"
-            >Login</NuxtLink
-          > -->
         </div>
       </div>
     </div>
 
     <div
-      v-if="status_recruit == 'recruit_sudah_submit'"
+      v-if="status_recruit == 'recruit.process'"
       id="formulir"
       class="hero min-h-screen bg-base-100"
     >
@@ -138,7 +140,7 @@
     </div>
 
     <div
-      v-if="user && status_recruit == 'recruit_belum_submit'"
+      v-if="user && status_recruit == 'recruit.buka'"
       id="formulir"
       class="hero min-h-screen bg-base-100 mt-24 pb-24"
     >
@@ -688,7 +690,6 @@ export default {
     },
   }),
   async fetch() {
-    this.state.isSubmitting = true
     await this.$axios
       .get(`${this.$config.apiURL}/recruit/check`)
       .then((response) => {
@@ -722,7 +723,7 @@ export default {
       await this.$axios
         .post(`${this.$config.apiURL}/recruit`, formData)
         .then((response) => {
-          this.status_recruit = 'recruit_sudah_submit'
+          this.status_recruit = 'recruit.process'
           this.state.isSubmitting = false
           window.location.href = '#formulir'
         })

@@ -14,12 +14,13 @@
 
 return [
 
-    'formulir_terkirim' => 'Formulir berhasil terkirim.',
-    'sudah_submit'      => 'Recruit sudah mengirim formulir rekrutmen sebelumnya dan masih berstatus diproses.',
-    'sudah_diterima'    => 'Recruit sudah menjadi anggota UKM Robotika UNS.',
-    'sudah_ditolak'     => 'Recruit sudah ditolak untuk menjadi anggota UKM Robotika UNS.',
-    'belum_submit'      => 'Recruit diperbolehkan untuk mengisi formulir.',
-    'berhasil_diterima' => 'Recruit berhasil diterima.',
-    'berhasil_ditolak'  => 'Recruit berhasil ditolak.',
+    'buka'      => 'User diperbolehkan untuk mengisi formulir.',
+    'tutup'     => 'Rekrutmen ditutup.',
+    'process'   => 'User sudah mengirim formulir rekrutmen sebelumnya dan masih berstatus diproses.',
+    'accept'    => 'User sudah menjadi anggota UKM Robotika UNS.',
+    'submitted' => 'Formulir berhasil terkirim.',
 
+    'sudah_ditolak'     => 'User sudah ditolak untuk menjadi anggota UKM Robotika UNS.',
+    'berhasil_diterima' => 'User berhasil diterima.',
+    'berhasil_ditolak'  => 'User berhasil ditolak.',
 ];

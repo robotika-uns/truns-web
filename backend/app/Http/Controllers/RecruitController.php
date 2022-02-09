@@ -13,6 +13,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\UploadGambar;
 use App\Recruit;
+use App\Setting;
 use App\Journey;
 use App\User;
 use App\Notifications\RecruitNotification;
@@ -51,6 +52,12 @@ class RecruitController extends BaseController
     public function create()
     {
 
+        $check_response = $this->check();
+        $status = collect($check_response)['original']['tag'];
+        if ($status != 'recruit.buka') {
+            return $check_response;
+        }
+
         $tim = implode(',', ['sambergeni', 'maladi', 'werkudara', 'sriwedari', 'dewisri', 'jaladara']);
         $divisi = implode(',', ['programmer', 'elektro', 'mekanik', 'sekretaris', 'bendahara', 'internal', 'media']);
 
@@ -78,19 +85,8 @@ class RecruitController extends BaseController
             'krs' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Cari recruit berdasarkan user_id dan masih berstatus proses.
-        $recruit = Recruit::where('user_id', $this->request->auth->id)
-            ->where('status', 'diproses')
-            ->first();
 
-        // Jika user sudah mengirim formulir sebelumnya.
-        if ($recruit) {
-            // Kirim respon [400] 'recruit_sudah_submit'.
-            return response()->json([
-                'tag' => 'recruit_sudah_submit',
-                'pesan' => trans('recruit.sudah_submit'),
-            ], 400);
-        }
+
 
         $pas_photo = UploadGambar::upload($this->request->file('pas_photo'));
         $karmas = UploadGambar::upload($this->request->file('karmas'));
@@ -100,25 +96,26 @@ class RecruitController extends BaseController
         $recruit = new Recruit;
         $recruit->user_id = $this->request->auth->id;
         $recruit->status = 'diproses';
+        $recruit->batch = Setting::get('recruit.batch');
         $recruit->pas_photo = $pas_photo;
         $recruit->karmas = $karmas;
         $recruit->krs = $krs;
         $recruit->fill($this->request->except(['krs', 'karmas', 'pas_photo']));
         $recruit->save();
 
-        Notification::send(
-            $this->request->auth,
-            new RecruitNotification($recruit, [
-                'tim'       => $recruit->tim_prioritas,
-                'divisi'    => $recruit->divisi_prioritas,
-                'status'    => 'diproses',
-            ])
-        );
+        // Notification::send(
+        //     $this->request->auth,
+        //     new RecruitNotification($recruit, [
+        //         'tim'       => $recruit->tim_prioritas,
+        //         'divisi'    => $recruit->divisi_prioritas,
+        //         'status'    => 'diproses',
+        //     ])
+        // );
 
-        // Kirim respon [200] 'formulir_terkirim'.
+        // Kirim respon [200] 'submitted'.
         return response()->json([
-            'tag' => 'formulir_terkirim',
-            'pesan' => trans('recruit.formulir_terkirim'),
+            'tag' => 'submitted',
+            'pesan' => trans('recruit.submitted'),
         ], 200);
     }
 
@@ -149,6 +146,15 @@ class RecruitController extends BaseController
      */
     public function check()
     {
+        $status = Setting::get('recruit.status');
+
+        if ($status == 0) {
+            return response()->json([
+                'tag' => 'recruit.tutup',
+                'pesan' => trans('recruit.tutup'),
+            ], 403);
+        }
+
         // Cari recruit berdasarkan user_id.
         $recruit = Recruit::where('user_id', $this->request->auth->id)
             ->first();
@@ -157,25 +163,24 @@ class RecruitController extends BaseController
             // Jika recruit sudah mengirim formulir sebelumnya.
             if ($recruit->status == 'diproses') {
                 return response()->json([
-                    'tag' => 'recruit_sudah_submit',
-                    'pesan' => trans('recruit.sudah_submit'),
+                    'tag' => 'recruit.process',
+                    'pesan' => trans('recruit.process'),
                 ], 403);
             }
 
             // Jika recruit sudah diterima.
             if ($recruit->status == 'diterima') {
                 return response()->json([
-                    'tag' => 'recruit_sudah_diterima',
-                    'pesan' => trans('recruit.sudah_diterima'),
+                    'tag' => 'recruit.accept',
+                    'pesan' => trans('recruit.accept'),
                 ], 403);
             }
         }
 
         // Selain itu semua diatas,
-        // Kirim respon [200] 'recruit_belum_submit'.
         return response()->json([
-            'tag' => 'recruit_belum_submit',
-            'pesan' => trans('recruit.belum_submit'),
+            'tag' => 'recruit.buka',
+            'pesan' => trans('recruit.buka'),
         ], 200);
     }
 
@@ -200,8 +205,8 @@ class RecruitController extends BaseController
         // Jika recruit sudah diterima.
         if ($recruit->status == 'diterima') {
             return response()->json([
-                'tag' => 'recruit_sudah_diterima',
-                'pesan' => trans('recruit.sudah_diterima'),
+                'tag' => 'recruit_accept',
+                'pesan' => trans('recruit.accept'),
             ], 403);
         }
 

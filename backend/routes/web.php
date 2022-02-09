@@ -15,6 +15,7 @@
 
 
 
+use App\Notification;
 use Illuminate\Support\Facades\Artisan;
 
 
@@ -26,8 +27,9 @@ use Illuminate\Support\Facades\Artisan;
  */
 
 $router->get('/', function () use ($router) {
-    $response = "Robotika UNS API   <br>" . $router->app->version();
-    return $response;
+    // $response = "Robotika UNS API   <br>" . $router->app->version();
+    // return $response;
+    return Notification::all();
 });
 
 
@@ -196,6 +198,28 @@ $router->group(['prefix' => 'notifications'], function () use ($router) {
     $router->get('/', [
         'uses' => 'NotificationController@getAll',
         'middleware' => ['authenticated', 'verified-email']
+    ]);
+});
+
+
+
+
+/**
+ * Setting Routes
+ * -----------------------------------------------------------------------------
+ */
+
+$router->group(['prefix' => 'setting'], function () use ($router) {
+
+    // Create Recruit
+    $router->patch('/set', [
+        'uses' => 'SettingController@set',
+        'middleware' => ['authenticated', 'verified-email']
+    ]);
+
+    // Create Recruit
+    $router->get('/get', [
+        'uses' => 'SettingController@get',
     ]);
 });
 
