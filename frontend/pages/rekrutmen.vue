@@ -15,7 +15,7 @@
               class="indicator-item badge"
               :class="{
                 'badge-error': setting['recruit.status'] === 0,
-                'badge-success': setting['recruit.status'] !== 1,
+                'badge-success': setting['recruit.status'] === 1,
               }"
             >
               {{ setting['recruit.status'] === 0 ? 'TUTUP' : 'BUKA' }}
@@ -81,7 +81,11 @@
       <Wave3 />
     </div>
 
-    <div v-if="!user" id="formulir" class="hero min-h-screen bg-base-100">
+    <div
+      v-if="!user && setting['recruit.status']"
+      id="formulir"
+      class="hero min-h-screen bg-base-100"
+    >
       <div class="text-center hero-content">
         <div class="max-w-md">
           <h1 class="mb-5 text-5xl font-bold">Whoops!</h1>
@@ -101,7 +105,7 @@
     </div>
 
     <div
-      v-if="status_recruit == 'recruit.accept'"
+      v-if="status_recruit && setting['recruit.status'] == 'recruit.accept'"
       id="formulir"
       class="hero min-h-screen bg-base-100"
     >
@@ -116,7 +120,7 @@
     </div>
 
     <div
-      v-if="status_recruit == 'recruit.process'"
+      v-if="status_recruit == 'recruit.process' && setting['recruit.status']"
       id="formulir"
       class="hero min-h-screen bg-base-100"
     >
@@ -694,7 +698,9 @@ export default {
     await this.$axios
       .get(`${this.$config.apiURL}/setting/get?name=recruit.status`)
       .then((response) => {
-        this.setting['recruit.status'] = parseInt(response.data['recruit.status'])
+        this.setting['recruit.status'] = parseInt(
+          response.data['recruit.status']
+        )
       })
       .catch((error) => {
         this.status_recruit = error.response.data.tag
