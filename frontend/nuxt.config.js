@@ -1,7 +1,10 @@
 export default {
   // Environment variables
   publicRuntimeConfig: {
-    apiURL: process.env.API_URL || 'http://localhost:8000',
+    apiURL:
+      process.env.NODE_ENV !== 'production'
+        ? 'http://localhost:8000'
+        : 'https://robotika.uns.ac.id/api',
     appName: process.env.APP_NAME || 'UKM Robotika UNS',
   },
 
