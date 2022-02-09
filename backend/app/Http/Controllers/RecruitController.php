@@ -17,8 +17,10 @@ use App\Setting;
 use App\Journey;
 use App\User;
 use App\Notifications\RecruitNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Database\Eloquent\Builder;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class RecruitController extends BaseController
@@ -130,7 +132,33 @@ class RecruitController extends BaseController
      */
     public function read()
     {
-        $recruit = Recruit::with('user')->paginate(10);
+        $recruit = Recruit::select();
+
+        $conditions = $this->request->except(['page', 'search']);
+
+
+        foreach ($conditions as $column => $value) {
+            $array_value = explode(",", $value);
+            $recruit->whereIn($column, $array_value);
+        }
+
+        $recruit->with('user');
+        $recruit->whereHas('user', function (Builder $query) {
+            $search = $this->request->input('search');
+            $query->where('name', 'like', '%' . $search . '%');
+        });
+
+        // $recruit->where('user_id.name', 'like', '%' . $search . '%');
+
+        $recruit = $recruit->orderBy('created_at', 'desc')->paginate(10);
+        try {
+        } catch (\Exception $ex) {
+            // Kirim respon [200] 'submitted'.
+            return response()->json([
+                'tag' => 'parameter.invalid',
+                'pesan' => "Parameter tidak valid.",
+            ], 200);
+        }
 
         return $recruit;
     }
@@ -276,6 +304,81 @@ class RecruitController extends BaseController
         return response()->json([
             'tag' => 'recruit_berhasil_ditolak',
             'pesan' => trans('recruit.berhasil_ditolak'),
+        ], 200);
+    }
+
+
+
+
+    /**
+     * Finalize Method
+     *
+     * Untuk memfinalisasi recruit.
+     *
+     */
+    public function finalize()
+    {
+
+        $current_batch = Setting::get('recruit.batch');
+        $recruit = Recruit::where('batch', $current_batch)->with('user')
+            ->get();
+
+        $recruit_diterima = $recruit->where('status', 'diterima');
+        $recruit_diproses = $recruit->where('status', 'diproses');
+
+        if (count($recruit) == 0) {
+            // Response.
+            return response()->json([
+                'tag' => 'recruit.empty',
+                'pesan' => trans('recruit.empty'),
+            ], 400);
+        }
+
+        if (count($recruit_diproses) != 0) {
+            // Response.
+            return response()->json([
+                'tag' => 'recruit.unfinalized',
+                'pesan' => trans('recruit.unfinalized'),
+            ], 400);
+        }
+
+        Setting::set('recruit.batch', $current_batch + 1);
+        Setting::set('recruit.status', 0);
+
+        // Ubah tipe user yang diterima menjadi anggota.
+        User::whereIn('id', $recruit_diterima->pluck('user_id'))->update(['tipe' => 'anggota']);
+
+        // Buat journey untuk user yang diterima.
+        $journey_array = [];
+        foreach ($recruit_diterima as $re) {
+            array_push($journey_array, [
+                'user_id'           => $re->user_id,
+                'tim'               => $re->tim_diterima,
+                'divisi'            => $re->divisi_diterima,
+                'struktur'          => '',
+                'tanggal_gabung'    => Carbon::now(),
+                'created_at'        => Carbon::now(),
+                'updated_at'        => Carbon::now(),
+            ]);
+        }
+        Journey::insert($journey_array);
+
+        // Kirim notifikasi ke user.
+        foreach ($recruit as $re) {
+            Notification::send(
+                $re->user,
+                new RecruitNotification($re, [
+                    'tim'       => $re->tim_diterima,
+                    'divisi'    => $re->divisi_diterima,
+                    'status'    => $re->status,
+                ])
+            );
+        }
+
+        // Response.
+        return response()->json([
+            'tag' => 'recruit.finalized',
+            'pesan' => trans('recruit.finalized'),
         ], 200);
     }
 }

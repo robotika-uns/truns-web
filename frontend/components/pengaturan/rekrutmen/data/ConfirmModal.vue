@@ -26,7 +26,7 @@
               <span class="label-text uppercase tracking-widest">Tim</span>
             </label>
             <select
-              :value="confirm.tim"
+              v-model="$parent.confirm.tim"
               class="select select-bordered w-full"
               required
             >
@@ -43,7 +43,7 @@
               <span class="label-text uppercase tracking-widest">Divisi</span>
             </label>
             <select
-              :value="confirm.divisi"
+              v-model="$parent.confirm.divisi"
               class="select select-bordered w-full"
               required
             >

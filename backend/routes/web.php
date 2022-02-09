@@ -92,17 +92,19 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
  */
 
 $router->group(['prefix' => 'user'], function () use ($router) {
-    // Who am I?
+
+    // Ambil data user.
     $router->get('{username}', [
         'uses' => 'UserController@getUserByUsername',
-        // 'middleware' => 'authenticated'
     ]);
 
+    // Update data user.
     $router->patch('/', [
         'uses' => 'UserController@update',
         'middleware' => ['authenticated', 'verified-email']
     ]);
 
+    // Update foto user.
     $router->post('/photo', [
         'uses' => 'UserController@photo',
         'middleware' => ['authenticated', 'verified-email']
@@ -157,6 +159,15 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
             'roles:administrator|moderator'
         ]
     ]);
+
+    // Finalize Recruit
+    $router->post('/finalize', [
+        'uses' => 'RecruitController@finalize',
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
+    ]);
 });
 
 
@@ -169,16 +180,18 @@ $router->group(['prefix' => 'recruit'], function () use ($router) {
 
 $router->group(['prefix' => 'journey'], function () use ($router) {
 
-    // Create Journey
+    // Buat Journey
     $router->post('/', [
         'uses' => 'JourneyController@create',
-        // 'middleware' => ['authenticated', 'verified-email']
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
     ]);
 
-    // Ambil journey berdasarkan user
+    // Ambil Journey berdasarkan user
     $router->get('user/{user_id}', [
         'uses' => 'JourneyController@getJourneyByUser',
-        // 'middleware' => ['authenticated', 'verified-email']
     ]);
 });
 
@@ -192,7 +205,7 @@ $router->group(['prefix' => 'journey'], function () use ($router) {
 
 $router->group(['prefix' => 'notifications'], function () use ($router) {
 
-    // Create Recruit
+    // Ambil notifikasi untuk user saat ini.
     $router->get('/', [
         'uses' => 'NotificationController@getAll',
         'middleware' => ['authenticated', 'verified-email']
@@ -209,13 +222,13 @@ $router->group(['prefix' => 'notifications'], function () use ($router) {
 
 $router->group(['prefix' => 'setting'], function () use ($router) {
 
-    // Create Recruit
+    // Set pengaturan.
     $router->patch('/set', [
         'uses' => 'SettingController@set',
         'middleware' => ['authenticated', 'verified-email']
     ]);
 
-    // Create Recruit
+    // Ambil pengaturan.
     $router->get('/get', [
         'uses' => 'SettingController@get',
     ]);

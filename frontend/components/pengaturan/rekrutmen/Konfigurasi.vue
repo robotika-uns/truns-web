@@ -67,10 +67,6 @@ export default {
         .then((response) => {
           // this.$toast.success('Berhasil mengubah pengaturan')
         })
-        .catch((error) => {
-          console.log(error.response)
-          // this.$toast.error('Gagal mengubah pengaturan')
-        })
     },
   },
 }

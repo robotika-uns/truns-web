@@ -336,8 +336,8 @@
                     {{ journey.tim }}
                   </span>
                   <div class="font-light text-lg tracking-widest">
-                    {{ bulan(journey.created_at) }},
-                    <b>{{ tahun(journey.created_at) }}</b>
+                    {{ bulan(journey.tanggal_gabung) }},
+                    <b>{{ tahun(journey.tanggal_gabung) }}</b>
                   </div>
                 </div>
               </div>
