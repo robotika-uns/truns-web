@@ -192,7 +192,19 @@ export default {
             this.state.isRegistering = false
             this.state.error = error.response.data
           } else {
-            window.location.reload(true)
+            this.$axios
+              .post(`${this.$config.apiURL}/auth/login`, {
+                email: this.email,
+                password: this.password,
+              })
+              .then((response) => {
+                localStorage.setItem('token', response.data.token)
+                window.location.reload(true)
+              })
+              .catch((error) => {
+                this.state.isAuthenticationg = false
+                this.state.error = error.response.data.pesan
+              })
           }
         })
     },
