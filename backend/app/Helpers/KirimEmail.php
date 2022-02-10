@@ -32,7 +32,5 @@ class KirimEmail
             ],
         ];
         $response = $mj->post(\Mailjet\Resources::$Email, ['body' => $body]);
-        $response->success();
     }
-
 }

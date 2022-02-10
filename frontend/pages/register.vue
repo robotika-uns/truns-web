@@ -191,6 +191,8 @@ export default {
           if (error.response.status === 422) {
             this.state.isRegistering = false
             this.state.error = error.response.data
+          } else {
+            window.location.reload(true)
           }
         })
     },
