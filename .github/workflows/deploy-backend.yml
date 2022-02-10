@@ -19,7 +19,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          path: backend
 
       - name: Lihat perubahan file
         id: changed-files
@@ -38,6 +37,7 @@ jobs:
           server: ${{ secrets.FTP_SITE_SERVER}}
           username: ${{ secrets.FTP_SITE_USER}}
           password: ${{ secrets.FTP_SITE_PASS}}
+          local-dir: "./backend/"
           server-dir: "truns-api/"
           exclude: |
             **/.git*
@@ -56,10 +56,10 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          path: backend
 
       - name: Ambil cache composer jika ada
         id: composer-cache
+        working-directory: ./backend
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
       - uses: actions/cache@v2
@@ -77,12 +77,14 @@ jobs:
           tools: composer
 
       - name: Install dependensi
+        working-directory: ./backend
         run: composer install --prefer-dist
 
       - name: Install zip
         uses: montudor/action-zip@v1
 
       - name: Zip output
+        working-directory: ./backend
         run: zip -qq -r vendor.zip vendor
 
       - name: Sinkronisasi file dengan hosing
