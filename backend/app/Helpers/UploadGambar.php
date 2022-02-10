@@ -11,7 +11,10 @@ class UploadGambar
     {
         $client = new GuzzleClient();
         $res = $client->request('POST', "https://api.imgbb.com/1/upload", [
-            'verify' => env('APP_ENV') == 'local' ? '../cacert.pem' : '/home/robotika/cacert.pem',
+            'verify' => env('APP_ENV') == 'local'
+                ? '../cacert.pem'
+                : '/home/robotika/truns-api/cacert.pem',
+
             'multipart' => [
                 [
                     'name' => 'key',

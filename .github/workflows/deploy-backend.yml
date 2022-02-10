@@ -8,17 +8,58 @@ on:
       - .github/workflows/deploy-backend.yml
 
 jobs:
-  web-deploy:
+  deploy-backend:
     name: Deploy backend ke hosting
+    outputs:
+      vendor-changed: ${{ steps.step-check-vendor.outputs.vendor-changed }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Ambil kode terbaru
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: backend
+
+      - name: Lihat perubahan file
+        id: changed-files
+        uses: tj-actions/changed-files@v14.5
+
+      - name: Cek apakah composer.lock berubah
+        id: step-check-vendor
+        if: contains(steps.changed-files.outputs.modified_files, 'composer.lock')
+        run: |
+          echo "composer.lock telah diubah."
+          echo "::set-output name=vendor-changed::true"
+
+      - name: Sinkronisasi file dengan hosting
+        uses: SamKirkland/FTP-Deploy-Action@4.2.0
+        with:
+          server: ${{ secrets.FTP_SITE_SERVER}}
+          username: ${{ secrets.FTP_SITE_USER}}
+          password: ${{ secrets.FTP_SITE_PASS}}
+          server-dir: "truns-api/"
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/vendor/**
+
+  vendor-check:
+    name: Cek composer.lock
+    needs: deploy-backend
+    if: needs.deploy-backend.outputs.vendor-changed == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ambil kode terbaru
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: backend
 
       - name: Ambil cache composer jika ada
         id: composer-cache
-        working-directory: ./backend
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
       - uses: actions/cache@v2
@@ -36,7 +77,6 @@ jobs:
           tools: composer
 
       - name: Install dependensi
-        working-directory: ./backend
         run: composer install --prefer-dist
 
       - name: Install zip
@@ -44,7 +84,6 @@ jobs:
 
       - name: Zip output
         run: zip -qq -r vendor.zip vendor
-        working-directory: ./backend
 
       - name: Sinkronisasi file dengan hosing
         uses: SamKirkland/FTP-Deploy-Action@4.2.0
@@ -52,7 +91,6 @@ jobs:
           server: ${{ secrets.FTP_SITE_SERVER}}
           username: ${{ secrets.FTP_SITE_USER}}
           password: ${{ secrets.FTP_SITE_PASS}}
-          local-dir: "./backend/"
           server-dir: "truns-api/"
           exclude: |
             **/.git*
@@ -65,6 +103,12 @@ jobs:
         with:
           url: ${{ secrets.WEBHOOK_URL_UNZIP }}
 
+  post-deploy:
+    name: Paska deploy
+    needs: vendor-check
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Migrasi database
         uses: joelwmale/webhook-action@master
         with:
