@@ -47,7 +47,7 @@ jobs:
 
   vendor-check:
     name: Cek composer.lock
-    needs: deploy-backend
+    needs: [deploy-backend]
     if: needs.deploy-backend.outputs.vendor-changed == true
     runs-on: ubuntu-latest
 
@@ -107,7 +107,8 @@ jobs:
 
   post-deploy:
     name: Paska deploy
-    needs: vendor-check
+    needs: [deploy-backend, vendor-check]
+    if: always()
     runs-on: ubuntu-latest
 
     steps:
