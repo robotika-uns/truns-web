@@ -188,8 +188,10 @@ export default {
           window.location.reload(true)
         })
         .catch((error) => {
-          this.state.isRegistering = false
-          this.state.error = error.response.data
+          if (error.response.status === 422) {
+            this.state.isRegistering = false
+            this.state.error = error.response.data
+          }
         })
     },
   },
