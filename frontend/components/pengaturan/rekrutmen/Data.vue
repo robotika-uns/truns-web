@@ -74,31 +74,28 @@
         </div>
       </div>
     </div>
-    <div
-      v-if="$fetchState.pending"
-      class="text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
-    >
-      <LoaderModel6 size="32" />
-    </div>
 
-    <div v-else>
-      <div
-        v-if="recruits.length === 0"
-        class="text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
-      >
-        Tidak ada data.
-      </div>
+    <div>
       <div class="overflow-x-auto">
-        <table v-if="recruits.length > 0" class="table w-full">
+        <table class="table w-full">
           <thead>
             <tr>
-              <th class="bg-base-300">Nama</th>
-              <th class="bg-base-300">Prioritas</th>
-              <th class="bg-base-300">Alternatif</th>
-              <th class="bg-base-300"></th>
+              <th class="bg-base-300 w-4/12">Nama</th>
+              <th class="bg-base-300 w-3/12 text-center">Prioritas</th>
+              <th class="bg-base-300 w-3/12 text-center">Alternatif</th>
+              <th class="bg-base-300 w-2/12 text-right">
+                <div
+                  class="btn btn-primary btn-xs"
+                  :class="{ loading: $fetchState.pending }"
+                  @click="$fetch()"
+                >
+                  <span class="text-sm">Refresh</span>
+                </div>
+              </th>
             </tr>
           </thead>
-          <tbody>
+
+          <tbody v-if="recruits.length > 0 && !$fetchState.pending">
             <tr v-for="recruit in recruits" :key="recruit.id">
               <td>
                 <div class="flex items-center space-x-3">
@@ -131,7 +128,7 @@
                     </div>
 
                     <div class="text-sm opacity-50">
-                      {{ recruit.prodi }}
+                      {{ recruit.nim }}
                     </div>
                   </div>
                 </div>
@@ -195,7 +192,7 @@
               </td>
 
               <th>
-                <div class="btn-group justify-end">
+                <div class="btn-group justify-center">
                   <button
                     class="btn btn-sm btn-primary p-0"
                     @click="
@@ -204,7 +201,7 @@
                     "
                   >
                     <div data-tip="Detil" class="tooltip tooltip-primary">
-                      <i class="ri-eye-line m-3"></i>
+                      <i class="ri-eye-line m-2"></i>
                     </div>
                   </button>
                   <button
@@ -220,7 +217,7 @@
                     "
                   >
                     <div data-tip="Tolak" class="tooltip tooltip-error">
-                      <i class="ri-close-line text-white m-3"></i>
+                      <i class="ri-close-line text-white m-2"></i>
                     </div>
                   </button>
                   <button
@@ -238,7 +235,7 @@
                     "
                   >
                     <div data-tip="Terima" class="tooltip tooltip-success">
-                      <i class="ri-check-line text-white m-3"></i>
+                      <i class="ri-check-line text-white m-2"></i>
                     </div>
                   </button>
                 </div>
@@ -246,6 +243,20 @@
             </tr>
           </tbody>
         </table>
+
+        <div
+          v-if="$fetchState.pending"
+          class="text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
+        >
+          <LoaderModel6 :size="32" />
+        </div>
+        <div
+          v-if="recruits.length === 0 && !$fetchState.pending"
+          class="w-full text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
+        >
+          Tidak ada data.
+        </div>
+
         <PengaturanRekrutmenDataConfirmModal
           :confirm="confirm"
           :selected-recruits="selectedRecruits"

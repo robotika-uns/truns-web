@@ -105,14 +105,14 @@ class RecruitController extends BaseController
         $recruit->fill($this->request->except(['krs', 'karmas', 'pas_photo']));
         $recruit->save();
 
-        // Notification::send(
-        //     $this->request->auth,
-        //     new RecruitNotification($recruit, [
-        //         'tim'       => $recruit->tim_prioritas,
-        //         'divisi'    => $recruit->divisi_prioritas,
-        //         'status'    => 'diproses',
-        //     ])
-        // );
+        Notification::send(
+            $this->request->auth,
+            new RecruitNotification($recruit, [
+                'tim'       => $recruit->tim_prioritas,
+                'divisi'    => $recruit->divisi_prioritas,
+                'status'    => $recruit->status,
+            ])
+        );
 
         // Kirim respon [200] 'submitted'.
         return response()->json([
@@ -242,23 +242,6 @@ class RecruitController extends BaseController
         $recruit->divisi_diterima = $this->request->input('divisi');
         $recruit->status = 'diterima';
         $recruit->save();
-
-        // $journey = Journey::create($this->request->all());
-        // $journey->tanggal_gabung = $journey->created_at;
-        // $journey->save();
-
-        // $user = User::find($recruit->user_id);
-        // $user->tipe = "anggota";
-        // $user->save();
-
-        // Notification::send(
-        //     $this->request->auth,
-        //     new RecruitNotification($recruit, [
-        //         'tim'       => $journey->tim,
-        //         'divisi'    => $journey->divisi,
-        //         'status'    => 'diterima',
-        //     ])
-        // );
 
         return response()->json([
             'tag' => 'recruit_berhasil_diterima',

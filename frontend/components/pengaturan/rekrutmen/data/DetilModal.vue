@@ -12,12 +12,12 @@
             {{ selectedRecruits.user.name }}
           </div>
           <div class="col-span-1 text-right">
-            <modal
+            <button
               class="btn btn-sm btn-error btn-outline h-full"
               @click="$parent.detil.modal = false"
             >
               <i class="ri-close-line"></i>
-            </modal>
+            </button>
           </div>
         </div>
 
@@ -260,7 +260,7 @@ import { format } from 'date-fns'
 import { id } from 'date-fns/locale'
 
 export default {
-  name: 'PengaturanRekrutmenDetilModalComponent',
+  name: 'PengaturanRekrutmenDataDetilModalComponent',
   props: {
     selectedRecruits: {
       type: Object,

@@ -5,19 +5,7 @@
       class="h-80 rounded-b-[5rem] bg-base-300 mt-[-9rem] shadow-2xl shadow-black/70"
     >
       <div v-if="state.isFetching" class="pt-48 px-14">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          width="64"
-          height="64"
-          class="animate-spin m-auto"
-        >
-          <path fill="none" d="M0 0h24v24H0z" />
-          <path
-            d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"
-            class="fill-white/50"
-          />
-        </svg>
+        <LoaderModel6 :size="32" />
       </div>
       <div
         v-if="!user && !state.isFetching"
@@ -131,7 +119,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="x in experience" :key="x">
+                    <tr v-for="x in experience" :key="x.xp">
                       <td>
                         <div class="badge badge-info align-middle font-bold">
                           +<b>{{ x.xp }}</b>
@@ -227,7 +215,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="rep in reputasi" :key="rep">
+                    <tr v-for="rep in reputasi" :key="rep.rep">
                       <td>
                         <div class="badge badge-success align-middle font-bold">
                           +<b>{{ rep.rep }}</b>
@@ -247,19 +235,7 @@
     <div class="px-24 pt-14 grid grid-cols-12 gap-10">
       <div class="col-span-4 pt-11">
         <div v-if="state.isFetching" class="px-14">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="64"
-            height="64"
-            class="animate-spin m-auto"
-          >
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path
-              d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"
-              class="fill-white/50"
-            />
-          </svg>
+          <LoaderModel6 :size="32" />
         </div>
         <div v-if="user && user.journey == ''">
           <div
@@ -347,19 +323,7 @@
       </div>
       <div class="col-span-8">
         <div v-if="state.isFetching" class="px-14 pt-14">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            width="64"
-            height="64"
-            class="animate-spin m-auto"
-          >
-            <path fill="none" d="M0 0h24v24H0z" />
-            <path
-              d="M12 3a9 9 0 0 1 9 9h-2a7 7 0 0 0-7-7V3z"
-              class="fill-white/50"
-            />
-          </svg>
+          <LoaderModel6 :size="32" />
         </div>
         <div v-if="user && !state.isFetching">
           <div class="tabs">

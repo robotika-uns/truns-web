@@ -13,7 +13,7 @@
 
     <div class="px-24 pt-14 grid grid-cols-12 gap-10">
       <div class="col-span-4">
-        <SidebarPengaturan />
+        <PengaturanSidebar />
       </div>
       <div class="col-span-8">
         <Nuxt />

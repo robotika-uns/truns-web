@@ -107,7 +107,7 @@ export default {
         .delete(`${this.$config.apiURL}/auth/logout`)
         .then((response) => {
           localStorage.removeItem('token')
-          this.$store.commit('user/setUser', '')
+          this.$store.commit('user/setUser', null)
           window.location.reload(true)
         })
         .catch(() => {

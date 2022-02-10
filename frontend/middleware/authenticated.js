@@ -6,8 +6,6 @@ export default function ({ redirect, store }) {
       return redirect('/verify')
     }
   } else {
-    localStorage.removeItem('token')
-    store.commit('user/setUser', '')
     return redirect('/login')
   }
 }

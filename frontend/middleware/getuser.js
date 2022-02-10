@@ -14,9 +14,10 @@ export default async function ({ $axios, $config, store }) {
         store.commit('user/setUser', response.data.data.user)
       })
       .catch(() => {
-        store.commit('user/setUser', '')
+        store.commit('user/setUser', null)
+        localStorage.removeItem('token')
       })
   } else {
-    store.commit('user/setUser', '')
+    store.commit('user/setUser', null)
   }
 }

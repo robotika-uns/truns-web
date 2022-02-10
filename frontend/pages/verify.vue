@@ -18,13 +18,7 @@
                     type="number"
                     placeholder="______"
                     required
-                    class="
-                      w-full
-                      input input-lg input-bordered
-                      tracking-[16px]
-                      text-xl text-center
-                      pr-1
-                    "
+                    class="w-full input input-lg input-bordered tracking-[16px] text-xl text-center pr-1"
                     :class="state.error ? 'input-error' : ''"
                     @input="state.error = ''"
                   />
@@ -201,7 +195,7 @@ export default {
         .delete(`${this.$config.apiURL}/auth/logout`)
         .then((response) => {
           localStorage.removeItem('token')
-          this.$store.commit('user/setUser', '')
+          this.$store.commit('user/setUser', null)
           window.location.reload(true)
         })
         .catch((error) => {

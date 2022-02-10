@@ -3,15 +3,7 @@
     <div class="min-h-screen bg-base-100">
       <div class="flex md:flex-row gap-4 min-h-screen">
         <div
-          class="
-            md:basis-7/12
-            lg:basis-7/12
-            xl:basis-8/12
-            place-self-center
-            z-50
-            hidden
-            md:block
-          "
+          class="md:basis-7/12 lg:basis-7/12 xl:basis-8/12 place-self-center z-50 hidden md:block"
         >
           <div class="text-left px-10 xl:px-24">
             <!-- <img src="/assets/img/login.svg" class="max-w-sm" alt="" /> -->
@@ -55,18 +47,7 @@
           </div>
         </div>
         <div
-          class="
-            flex
-            md:basis-5/12
-            lg:basis-5/12
-            xl:basis-4/12
-            bg-base-300
-            min-h-screen
-            place-self-center
-            w-full
-            p-14
-            z-50
-          "
+          class="flex md:basis-5/12 lg:basis-5/12 xl:basis-4/12 bg-base-300 min-h-screen place-self-center w-full p-14 z-50"
         >
           <div class="w-full place-self-center z-50">
             <img src="/assets/img/logo.png" class="w-52 m-auto mb-14" alt="" />
@@ -133,11 +114,7 @@
               <div class="form-control mt-6">
                 <button
                   type="submit"
-                  class="
-                    btn btn-primary
-                    tracking-widest
-                    hover:shadow-lg hover:shadow-white/50
-                  "
+                  class="btn btn-primary tracking-widest hover:shadow-lg hover:shadow-white/50"
                   :disabled="state.isRegistering"
                 >
                   <span v-if="!state.isRegistering" class="flex flex-row">
@@ -208,7 +185,7 @@ export default {
         })
         .then((response) => {
           localStorage.setItem('token', response.data.token)
-          this.$router.push('/dashboard')
+          window.location.reload(true)
         })
         .catch((error) => {
           this.state.isRegistering = false

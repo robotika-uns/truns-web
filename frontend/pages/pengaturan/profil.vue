@@ -13,10 +13,7 @@
 
         <div class="w-full mask mask-squircle bg-base-300">
           <InputErrorLabel v-if="state.error" :error="state.error.photo" />
-          <i
-            v-else-if="state.isUploading"
-            class="ri-loader-5-fill ri-6x text-primary/50 animate-spin"
-          ></i>
+          <LoaderModel6 v-else-if="state.isUploading" :size="32" />
           <img v-else-if="user.photo" :src="user.photo" />
           <i v-else class="ri-user-3-fill ri-6x text-primary/50"></i>
         </div>

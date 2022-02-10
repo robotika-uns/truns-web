@@ -652,7 +652,7 @@
       class="modal-toggle"
     />
     <div class="modal">
-      <div class="modal-box">
+      <div class="modal-box max-w-sm">
         <div>
           <VueCropper
             ref="cropper"

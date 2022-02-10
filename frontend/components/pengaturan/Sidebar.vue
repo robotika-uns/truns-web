@@ -6,7 +6,7 @@
       <div class="flex bg-base-300/50 p-5">
         <NuxtLink
           v-for="p in pengaturan"
-          :key="p"
+          :key="p.url"
           :to="`${p.url}`"
           class="btn btn-sm w-full justify-start"
           :class="$route.path == p.url ? 'btn-primary' : 'btn-ghost'"
@@ -29,7 +29,7 @@
         <div class="flex bg-base-300/50 p-5">
           <NuxtLink
             v-for="p in moderator"
-            :key="p"
+            :key="p.url"
             :to="`${p.url}`"
             class="btn btn-sm w-full justify-start"
             :class="$route.path == p.url ? 'btn-primary' : 'btn-ghost'"
@@ -49,7 +49,7 @@
 
 <script>
 export default {
-  name: 'SidebarPengaturanComponent',
+  name: 'PengaturanSidebarComponent',
   data() {
     return {
       pengaturan: {
