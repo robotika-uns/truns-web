@@ -19,4 +19,10 @@ return [
         'ditolak'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>menolak</strong> pendaftaran rekrutmen <mention data-type="mention" data-id=":user" username=":user"></mention>.',
         'finalisasi'    => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>memfinalisasi</strong> pendaftaran rekrutmen <strong>Batch :batch</strong>.',
     ],
+
+    'user'   => [
+        'tipe_changed'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>mengubah</strong> tipe <mention data-type="mention" data-id=":user" username=":user"></mention> menjadi <strong>:Tipe</strong>.',
+        'role_changed'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>mengubah</strong> role <mention data-type="mention" data-id=":user" username=":user"></mention> menjadi <strong>:Role</strong>.',
+    ]
+
 ];

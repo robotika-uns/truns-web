@@ -12,7 +12,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\UploadGambar;
-use App\Journey;
+use App\Log;
 use App\User;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -176,6 +176,19 @@ class UserController extends BaseController
         $user->role = $this->request->input('role');
         $user->save();
 
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'user',
+            'data' => [
+                'pesan' => "log.user.role_changed",
+                'slug'  => [
+                    'causer'    => $this->request->auth->username,
+                    'user'      => $user->username,
+                    'role'      => $user->role,
+                ],
+            ],
+        ]);
+
         return response()->json([
             'tag' => 'user.role_changed',
             'pesan' => trans('user.role_changed'),
@@ -209,6 +222,19 @@ class UserController extends BaseController
 
         $user->tipe = $this->request->input('tipe');
         $user->save();
+
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'user',
+            'data' => [
+                'pesan' => "log.user.tipe_changed",
+                'slug'  => [
+                    'causer'    => $this->request->auth->username,
+                    'user'      => $user->username,
+                    'tipe'      => $user->tipe,
+                ],
+            ],
+        ]);
 
         return response()->json([
             'tag' => 'user.tipe_changed',
