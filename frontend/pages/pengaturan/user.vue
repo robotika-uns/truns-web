@@ -107,10 +107,17 @@
                     <button
                       class="font-bold"
                       :class="{
-                        tooltip: user.id !== $store.state.user.currentUser.id,
+                        tooltip:
+                          user.id !== $store.state.user.currentUser.id &&
+                          $store.state.user.currentUser.role ===
+                            'administrator',
                       }"
                       data-tip="KLIK UNTUK MENGUBAH"
-                      :disabled="user.id === $store.state.user.currentUser.id"
+                      :disabled="
+                        $store.state.user.currentUser.role !==
+                          'administrator' ||
+                        user.id === $store.state.user.currentUser.id
+                      "
                       @click="
                         roleModal.show = true
                         selectedUsers = { ...user }
@@ -131,12 +138,8 @@
                   </td>
                   <td class="text-center">
                     <button
-                      class="font-bold"
-                      :class="{
-                        tooltip: user.id !== $store.state.user.currentUser.id,
-                      }"
+                      class="font-bold tooltip"
                       data-tip="KLIK UNTUK MENGUBAH"
-                      :disabled="user.id === $store.state.user.currentUser.id"
                       @click="
                         tipeModal.show = true
                         selectedUsers = { ...user }
@@ -174,9 +177,18 @@
                           </svg>
                         </div>
                       </div>
+
                       <button
+                        v-if="user.tipe !== 'outsider'"
                         data-tip="SESUAIKAN JOURNEY"
                         class="btn btn-xs m-0 p-0 btn-primary tooltip font-bold"
+                        :class="{
+                          tooltip: user.id !== $store.state.user.currentUser.id,
+                        }"
+                        @click="
+                          journeyModal.show = true
+                          selectedUsers = user
+                        "
                       >
                         <i class="ri-pencil-line leading-none p-1"></i>
                       </button>
@@ -232,6 +244,11 @@
               :selected-users="selectedUsers"
               :old-tipe="selectedUsers.oldTipe"
             />
+
+            <PengaturanUserJourneyModal
+              :journey-modal="journeyModal"
+              :selected-users="selectedUsers"
+            />
           </div>
         </div>
       </div>
@@ -263,6 +280,11 @@ export default {
       },
 
       tipeModal: {
+        show: false,
+        loading: false,
+      },
+
+      journeyModal: {
         show: false,
         loading: false,
       },

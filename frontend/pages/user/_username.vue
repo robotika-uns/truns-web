@@ -237,7 +237,7 @@
         <div v-if="state.isFetching" class="px-14">
           <LoaderModel6 :size="32" />
         </div>
-        <div v-if="user && user.journeys == ''">
+        <div v-if="user.tipe === 'outsider'">
           <div
             class="card bg-base-100 shadow-lg shadow-black/20 transition ease-in-out duration-300 hover:shadow-lg hover:shadow-black border-2 border-primary/10 relative select-none z-10"
           >
@@ -271,7 +271,7 @@
             </div>
           </div>
         </div>
-        <div v-if="user && !state.isFetching">
+        <div v-if="user && !state.isFetching && user.tipe !== 'outsider'">
           <div v-for="(journey, index) in user.journeys" :key="journey.id">
             <div
               v-if="!(index == 0)"

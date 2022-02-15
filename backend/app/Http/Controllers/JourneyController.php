@@ -16,16 +16,8 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\Journey;
-use App\Session;
-use App\Notifications\RecruitNotification;
-use Carbon\Carbon;
+use App\Log;
 use Illuminate\Http\Request;
-use Jenssegers\Agent\Agent;
-use Illuminate\Support\Facades\Hash;
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use Mailjet\Resources;
-use Illuminate\Support\Facades\Notification;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 
@@ -61,38 +53,94 @@ class JourneyController extends BaseController
      */
     public function create()
     {
-        //     $notifications = $this->request->auth->notifications;
+
+        $this->validate($this->request, [
+            'user_id'           => 'required',
+            'tim'               => 'required',
+            'struktur'          => '',
+            'divisi'            => 'required',
+            'tanggal_gabung'    => 'required|date',
+        ]);
 
         // Buat journey baru.
-        // $journey = new Journey;
-        // $journey->fill($this->request->all());
-        // $journey->save();
         $journey = Journey::create($this->request->all());
 
-        // $lastLoggedActivity->created_at = $this->request->created_at;
-        // $lastLoggedActivity->save();
-        //     if ($notifications == '[]') {
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'journey',
+            'data' => [
+                'pesan' => "log.journey.created",
+                'slug'  => [
+                    'causer'    => $this->request->auth->username,
+                    'user'      => User::find($this->request->user_id)->username,
+                    'tim'       => $journey->tim,
+                    'divisi'    => $journey->divisi,
+                ],
+            ],
+        ]);
 
-        //         // Kirim respon [200] 'notifikasi_kosong'.
-        //         return response()->json([
-        //             'tag'   => 'notifikasi_kosong',
-        //             'pesan' => trans('recruit.belum_submit')
-        //         ], 200);
-        //     }
+        $journeys = User::select();
+        $journeys->where('id', $journey->user_id);
+        $journeys->with(['journeys' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
 
-        //     foreach ($notifications as $notification) {
-        //         // $pesan = $notification->data['pesan'];
-        //         $notification->data = array_merge($notification->data, [
-        //             "pesan" => trans("notification.{$notification->data['pesan']}", $notification->data['slug'])
-        //         ]);
-        //     }
+        $journeys = $journeys->first();
+        $journeys = $journeys['journeys'];
+        return $journeys;
+    }
 
-        //     // Kirim respon [200] 'notifikasi_ada'.
-        //     return response()->json([
-        //         'tag'   => 'notifikasi_ada',
-        //         'pesan' => trans('recruit.belum_submit'),
-        //         'data'  => $notifications
-        //     ], 200);
+
+
+
+    /**
+     * Delete Method
+     * 
+     * Untuk menghapus journey pada user.
+     * 
+     */
+    public function delete()
+    {
+
+        $this->validate($this->request, [
+            'id'    => 'required',
+        ]);
+
+        $journey = Journey::find($this->request->id);
+        $user_id = $journey->user_id;
+
+        if (!$journey) {
+            return response()->json([
+                'tag' => 'journey.notfound',
+                'pesan' => trans('journey.notfound')
+            ], 404);
+        }
+
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'journey',
+            'data' => [
+                'pesan' => "log.journey.deleted",
+                'slug'  => [
+                    'causer'    => $this->request->auth->username,
+                    'user'      => User::find($user_id)->username,
+                    'tim'       => $journey->tim,
+                    'divisi'    => $journey->divisi,
+                ],
+            ],
+        ]);
+
+        $journey->delete();
+
+        $journeys = User::select();
+        $journeys->where('id', $user_id);
+        $journeys->with(['journeys' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
+
+        $journeys = $journeys->first();
+        $journeys = $journeys['journeys'];
+        return $journeys;
     }
 
 

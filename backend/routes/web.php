@@ -224,6 +224,15 @@ $router->group(['prefix' => 'journey'], function () use ($router) {
         ]
     ]);
 
+    // Delete Journey
+    $router->delete('/', [
+        'uses' => 'JourneyController@delete',
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
+    ]);
+
     // Ambil Journey berdasarkan user
     $router->get('user/{user_id}', [
         'uses' => 'JourneyController@getJourneyByUser',

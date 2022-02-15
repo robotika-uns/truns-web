@@ -21,8 +21,13 @@ return [
     ],
 
     'user'   => [
-        'tipe_changed'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>mengubah</strong> tipe <mention data-type="mention" data-id=":user" username=":user"></mention> menjadi <strong>:Tipe</strong>.',
-        'role_changed'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>mengubah</strong> role <mention data-type="mention" data-id=":user" username=":user"></mention> menjadi <strong>:Role</strong>.',
+        'tipe_changed'  => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>mengubah</strong> tipe <mention data-type="mention" data-id=":user" username=":user"></mention> menjadi <strong>:Tipe</strong>.',
+        'role_changed'  => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>mengubah</strong> role <mention data-type="mention" data-id=":user" username=":user"></mention> menjadi <strong>:Role</strong>.',
+    ],
+
+    'journey'   => [
+        'created'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>menambahkan</strong> journey Tim <strong>:Tim</strong> dan Divisi <strong>:Divisi</strong> pada <mention data-type="mention" data-id=":user" username=":user"></mention>.',
+        'deleted'       => '<mention data-type="mention" data-id=":causer" username=":causer"></mention> <strong>menghapus</strong> journey Tim <strong>:Tim</strong> dan Divisi <strong>:Divisi</strong> dari <mention data-type="mention" data-id=":user" username=":user"></mention>.',
     ]
 
 ];
