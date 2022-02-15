@@ -253,6 +253,26 @@
               </th>
             </tr>
           </tbody>
+          <tbody>
+            <tr v-if="$fetchState.pending">
+              <td colspan="4">
+                <div
+                  class="text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
+                >
+                  <LoaderModel6 :size="32" />
+                </div>
+              </td>
+            </tr>
+            <tr v-if="recruits.total === 0 && !$fetchState.pending">
+              <td colspan="4">
+                <div
+                  class="w-full text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
+                >
+                  Tidak ada data.
+                </div>
+              </td>
+            </tr>
+          </tbody>
           <tfoot>
             <tr>
               <th colspan="4" class="bg-base-300">
@@ -264,19 +284,6 @@
             </tr>
           </tfoot>
         </table>
-
-        <div
-          v-if="$fetchState.pending"
-          class="text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
-        >
-          <LoaderModel6 :size="32" />
-        </div>
-        <div
-          v-if="recruits.total === 0 && !$fetchState.pending"
-          class="w-full text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
-        >
-          Tidak ada data.
-        </div>
 
         <PengaturanRekrutmenDataConfirmModal
           :confirm="confirm"
