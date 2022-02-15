@@ -15,6 +15,7 @@
 return [
 
     'notfound'      => 'User tidak ditemukan.',
-    'role_changed'  => 'Role berhasil diubah.',
+    'role_changed'  => 'Role user berhasil diubah.',
+    'tipe_changed'  => 'Tipe user berhasil diubah.',
 
 ];

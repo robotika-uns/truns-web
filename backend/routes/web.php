@@ -107,6 +107,15 @@ $router->group(['prefix' => 'user'], function () use ($router) {
         ]
     ]);
 
+    // Update tipe user.
+    $router->patch('/tipe', [
+        'uses' => 'UserController@changeTipe',
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
+    ]);
+
     // Update data user.
     $router->patch('/', [
         'uses' => 'UserController@update',

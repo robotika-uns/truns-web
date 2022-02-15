@@ -181,4 +181,38 @@ class UserController extends BaseController
             'pesan' => trans('user.role_changed'),
         ], 200);
     }
+
+
+
+
+    /**
+     * Change Tipe Method
+     *
+     * Untuk mengganti tipe user.
+     *
+     */
+    public function changeTipe()
+    {
+        $tipe = implode(',', ['outsider', 'anggota', 'alumni']);
+
+        $this->validate($this->request, [
+            'tipe' => "required|in:{$tipe}",
+        ]);
+
+        $user = User::find($this->request->input('user_id'));
+        if (count($user) == 0) {
+            return response()->json([
+                'tag' => 'user.notfound',
+                'pesan' => trans('user.notfound'),
+            ], 400);
+        }
+
+        $user->tipe = $this->request->input('tipe');
+        $user->save();
+
+        return response()->json([
+            'tag' => 'user.tipe_changed',
+            'pesan' => trans('user.tipe_changed'),
+        ], 200);
+    }
 }
