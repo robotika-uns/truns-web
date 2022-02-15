@@ -63,9 +63,9 @@ class UserController extends BaseController
 
 
     /**
-     * Check Method
+     * Search Method
      *
-     * Untuk cek apakah user sudah mengirim formulir sebelumnya.
+     * untuk mencari user.
      *
      */
     public function search()
@@ -73,10 +73,6 @@ class UserController extends BaseController
         $search = $this->request->input('q');
         $users = User::select();
         if (!$search || $search == ' ') {
-            // return response()->json([
-            //     'tag' => 'parameter.invalid',
-            //     'pesan' => "Parameter tidak valid.",
-            // ], 400);
             $users->where('name', 'like', '%' . '  ' . '%');
             $users->orWhere('username', 'like', '%' . '  ' . '%');
         } else {
@@ -84,17 +80,39 @@ class UserController extends BaseController
             $users->orWhere('username', 'like', '%' . $search . '%');
         }
 
-
         $users = $users->orderBy('created_at', 'desc')->paginate(10);
 
-        try {
-        } catch (\Exception $ex) {
-            // Kirim respon [200] 'submitted'.
-            return response()->json([
-                'tag' => 'parameter.invalid',
-                'pesan' => "Parameter tidak valid.",
-            ], 400);
+        return $users;
+    }
+
+
+
+
+    /**
+     * All Method
+     *
+     * Ambil semua data user.
+     *
+     */
+    public function all()
+    {
+        $search = $this->request->input('q');
+        $users = User::select();
+
+        $users->where('name', 'like', '%' . $search . '%')->orWhere(function ($query) use ($search) {
+            $query->where('username', 'like', '%' . $search . '%');
+        });
+
+        $conditions = $this->request->except(['page', 'q']);
+
+        foreach ($conditions as $column => $value) {
+            $array_value = explode(",", $value);
+            if ($value != '') {
+                $users->whereIn($column, $array_value);
+            }
         }
+
+        $users = $users->orderBy('created_at', 'desc')->paginate(10);
 
         return $users;
     }

@@ -116,6 +116,15 @@ $router->group(['prefix' => 'user'], function () use ($router) {
         ]
     ]);
 
+    // Ambil semua user.
+    $router->get('/all', [
+        'uses' => 'UserController@all',
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
+    ]);
+
     // Update data user.
     $router->patch('/', [
         'uses' => 'UserController@update',
