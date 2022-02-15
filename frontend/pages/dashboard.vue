@@ -140,8 +140,8 @@
                     }"
                   ></i>
                   <label>
-                    <h4>{{ notification.data.pesan }}</h4>
-                    <p class="text-sm text-base-content text-opacity-60">
+                    <TipTapRender :data="notification.data.pesan" />
+                    <p class="text-sm opacity-60 font-normal">
                       {{ tanggal(notification.created_at) }}
                     </p>
                   </label>
@@ -194,7 +194,6 @@ export default {
   },
   methods: {
     tanggal(date) {
-      // const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
       return formatRelative(new Date(parseJSON(date)), new Date(), {
         addSuffix: true,
         locale: id,

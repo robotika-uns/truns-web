@@ -5,10 +5,11 @@
         <div class="col-span-2">
           <div class="form-control">
             <select
-              v-model="filter.batch"
+              v-model="filters.batch"
               class="select select-bordered w-full max-w-xs"
               @change="$fetch()"
             >
+              <option value="">Semua batch {{ index }}</option>
               <option
                 v-for="index in setting['recruit.batch']"
                 :key="index"
@@ -22,11 +23,11 @@
         <div class="col-span-3">
           <div class="form-control">
             <select
-              v-model="filter.status"
+              v-model="filters.status"
               class="select select-bordered w-full max-w-xs"
-              @change="updateFilter('batch', filter.batch)"
+              @change="$fetch()"
             >
-              <option value="diproses,diterima,ditolak">Status: Semua</option>
+              <option value="">Status: Semua</option>
               <option value="diproses">Status: Diproses</option>
               <option value="diterima">Status: Diterima</option>
               <option value="ditolak">Status: Ditolak</option>
@@ -37,12 +38,22 @@
           <div class="form-control">
             <div class="relative">
               <input
-                v-model="filter.search"
+                v-model="filters.search"
                 type="text"
                 placeholder="Cari user..."
                 class="w-full pr-16 input border-primary/30"
                 @keyup.enter="$fetch()"
               />
+              <button
+                v-if="filters.search"
+                class="absolute right-14 p-0 px-2 h-full transition-all duration-300 ease-in-out hover:text-error"
+                @click="
+                  filters.search = ''
+                  $fetch()
+                "
+              >
+                <i class="ri-close-line"></i>
+              </button>
               <button
                 class="absolute top-0 right-0 rounded-l-none btn btn-primary"
                 @click="$fetch()"
@@ -55,19 +66,19 @@
         <div class="col-span-3 pl-5 border-l-2 border-white/30">
           <button
             class="btn btn-outline tracking-wider transition-all duration-300 ease-in-out hover:tracking-widest text-white w-full"
-            :disabled="filter.batch !== setting['recruit.batch']"
+            :disabled="filters.batch !== setting['recruit.batch']"
             :class="
-              filter.batch !== setting['recruit.batch']
+              filters.batch !== setting['recruit.batch']
                 ? 'btn-success opacity-60'
                 : 'btn-info'
             "
             @click="finalisasi.modal = true"
           >
-            <span v-if="filter.batch === setting['recruit.batch']">
+            <span v-if="filters.batch === setting['recruit.batch']">
               Finalisasi
             </span>
             <i
-              v-if="filter.batch !== setting['recruit.batch']"
+              v-if="filters.batch !== setting['recruit.batch']"
               class="ri-check-line ml-2"
             ></i>
           </button>
@@ -95,8 +106,8 @@
             </tr>
           </thead>
 
-          <tbody v-if="recruits.length > 0 && !$fetchState.pending">
-            <tr v-for="recruit in recruits" :key="recruit.id">
+          <tbody v-if="recruits.total > 0 && !$fetchState.pending">
+            <tr v-for="recruit in recruits.data" :key="recruit.id">
               <td>
                 <div class="flex items-center space-x-3">
                   <div class="avatar">
@@ -128,7 +139,7 @@
                     </div>
 
                     <div class="text-sm opacity-50">
-                      {{ recruit.nim }}
+                      @{{ recruit.user.username }}
                     </div>
                   </div>
                 </div>
@@ -208,7 +219,7 @@
                     class="btn btn-sm btn-error p-0"
                     :disabled="
                       recruit.status === 'ditolak' ||
-                      filter.batch !== setting['recruit.batch']
+                      filters.batch !== setting['recruit.batch']
                     "
                     @click="
                       selectedRecruits = recruit
@@ -224,7 +235,7 @@
                     class="btn btn-sm btn-success p-0"
                     :disabled="
                       recruit.status === 'diterima' ||
-                      filter.batch !== setting['recruit.batch']
+                      filters.batch !== setting['recruit.batch']
                     "
                     @click="
                       selectedRecruits = recruit
@@ -242,6 +253,16 @@
               </th>
             </tr>
           </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="4" class="bg-base-300">
+                <Pagination
+                  :page="recruits.current_page"
+                  :total="recruits.last_page"
+                />
+              </th>
+            </tr>
+          </tfoot>
         </table>
 
         <div
@@ -251,7 +272,7 @@
           <LoaderModel6 :size="32" />
         </div>
         <div
-          v-if="recruits.length === 0 && !$fetchState.pending"
+          v-if="recruits.total === 0 && !$fetchState.pending"
           class="w-full text-center text-primary/80 tracking-widest font-light bg-base-100 rounded-lg py-5"
         >
           Tidak ada data.
@@ -282,17 +303,18 @@ export default {
 
   data() {
     return {
-      recruits: '',
+      recruits: [],
       selectedRecruits: {
         user: {
           name: '',
         },
       },
 
-      filter: {
+      filters: {
+        page: 1,
         search: '',
-        batch: '',
-        status: 'diproses,diterima,ditolak',
+        status: '',
+        batch: 0,
       },
 
       setting: [],
@@ -329,20 +351,21 @@ export default {
         this.setting['recruit.batch'] = parseInt(response.data['recruit.batch'])
       })
 
-    if (!this.filter.batch) {
-      this.filter.batch = this.setting['recruit.batch']
+    if (this.filters.batch === 0) {
+      this.filters.batch = this.setting['recruit.batch']
     }
 
     await this.$axios
       .get(`${this.$config.apiURL}/recruit`, {
         params: {
-          search: this.filter.search,
-          batch: this.filter.batch,
-          status: this.filter.status,
+          page: this.filters.page,
+          search: this.filters.search,
+          batch: this.filters.batch,
+          status: this.filters.status,
         },
       })
       .then((response) => {
-        this.recruits = response.data.data
+        this.recruits = response.data
       })
       .catch(() => {
         this.recruits = null
@@ -357,7 +380,7 @@ export default {
           id: recruit.id,
         })
         .then((response) => {
-          this.recruits.find((x) => x.id === recruit.id).status = 'ditolak'
+          this.recruits.data.find((x) => x.id === recruit.id).status = 'ditolak'
           this.confirm.modal = false
         })
         .catch((error) => {
@@ -375,10 +398,11 @@ export default {
           divisi: this.confirm.divisi,
         })
         .then((response) => {
-          this.recruits.find((x) => x.id === recruit.id).status = 'diterima'
-          this.recruits.find((x) => x.id === recruit.id).tim_diterima =
+          this.recruits.data.find((x) => x.id === recruit.id).status =
+            'diterima'
+          this.recruits.data.find((x) => x.id === recruit.id).tim_diterima =
             this.confirm.tim
-          this.recruits.find((x) => x.id === recruit.id).divisi_diterima =
+          this.recruits.data.find((x) => x.id === recruit.id).divisi_diterima =
             this.confirm.divisi
           this.confirm.modal = false
         })
@@ -393,7 +417,7 @@ export default {
       await this.$axios
         .post(`${this.$config.apiURL}/recruit/finalize`)
         .then((response) => {
-          this.filter.batch = this.setting['recruit.batch'] + 1
+          this.filters.batch = this.setting['recruit.batch'] + 1
           this.$fetch()
           this.finalisasi.modal = false
         })
@@ -401,10 +425,6 @@ export default {
           this.finalisasi.error = error.response.data
         })
       this.finalisasi.loading = false
-    },
-
-    updateFilter() {
-      this.$fetch()
     },
   },
 }

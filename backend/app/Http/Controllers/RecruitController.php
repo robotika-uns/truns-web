@@ -16,6 +16,7 @@ use App\Recruit;
 use App\Setting;
 use App\Journey;
 use App\User;
+use App\Log;
 use App\Notifications\RecruitNotification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -139,13 +140,16 @@ class RecruitController extends BaseController
 
         foreach ($conditions as $column => $value) {
             $array_value = explode(",", $value);
-            $recruit->whereIn($column, $array_value);
+            if ($value != '') {
+                $recruit->whereIn($column, $array_value);
+            }
         }
 
         $recruit->with('user');
         $recruit->whereHas('user', function (Builder $query) {
-            $search = $this->request->input('search');
+            $search = trim($this->request->input('search'));
             $query->where('name', 'like', '%' . $search . '%');
+            $query->orWhere('username', 'like', '%' . $search . '%');
         });
 
         // $recruit->where('user_id.name', 'like', '%' . $search . '%');
@@ -243,6 +247,21 @@ class RecruitController extends BaseController
         $recruit->status = 'diterima';
         $recruit->save();
 
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'recruit',
+            'data' => [
+                'id'    => $recruit->id,
+                'pesan' => "log.recruit.diterima",
+                'slug'  => [
+                    'causer' => $this->request->auth->username,
+                    'user'      => $recruit->user->username,
+                    'tim'       => $recruit->tim_diterima,
+                    'divisi'    => $recruit->divisi_diterima
+                ],
+            ],
+        ]);
+
         return response()->json([
             'tag' => 'recruit_berhasil_diterima',
             'pesan' => trans('recruit.berhasil_diterima'),
@@ -277,12 +296,18 @@ class RecruitController extends BaseController
         $recruit->divisi_diterima = null;
         $recruit->save();
 
-        // Notification::send(
-        //     $this->request->auth,
-        //     new RecruitNotification($recruit, [
-        //         'status'    => 'ditolak',
-        //     ])
-        // );
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'recruit',
+            'data' => [
+                'id'    => $recruit->id,
+                'pesan' => "log.recruit.ditolak",
+                'slug'  => [
+                    'causer'    => $this->request->auth->username,
+                    'user'      => $recruit->user->username
+                ],
+            ],
+        ]);
 
         return response()->json([
             'tag' => 'recruit_berhasil_ditolak',
@@ -357,6 +382,18 @@ class RecruitController extends BaseController
                 ])
             );
         }
+
+        Log::create([
+            'user_id' => $this->request->auth->id,
+            'type' => 'recruit',
+            'data' => [
+                'pesan' => "log.recruit.finalisasi",
+                'slug'  => [
+                    'causer'    => $this->request->auth->username,
+                    'batch'     => $current_batch,
+                ],
+            ],
+        ]);
 
         // Response.
         return response()->json([

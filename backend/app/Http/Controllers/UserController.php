@@ -45,8 +45,9 @@ class UserController extends BaseController
     public function getUserByUsername($username)
     {
         // Cari recruit berdasarkan user_username dan masih berstatus proses.
-        $user = User::where('username', $username)
-            ->first();
+        $user = User::where('username', $username)->with(['journeys' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }])->first();
 
         if (!$user) {
             return response()->json([
@@ -55,15 +56,51 @@ class UserController extends BaseController
             ], 404);
         }
 
-        $journey = Journey::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
-        $user->journey = $journey;
-
-        return response()->json([
-            'tag' => 'user_ditemukan',
-            'pesan' => trans('recruit.belum_submit'),
-            'data' => $user,
-        ], 200);
+        return $user;
     }
+
+
+
+
+    /**
+     * Check Method
+     *
+     * Untuk cek apakah user sudah mengirim formulir sebelumnya.
+     *
+     */
+    public function search()
+    {
+        $search = $this->request->input('q');
+        $users = User::select();
+        if (!$search || $search == ' ') {
+            // return response()->json([
+            //     'tag' => 'parameter.invalid',
+            //     'pesan' => "Parameter tidak valid.",
+            // ], 400);
+            $users->where('name', 'like', '%' . '  ' . '%');
+            $users->orWhere('username', 'like', '%' . '  ' . '%');
+        } else {
+            $users->where('name', 'like', '%' . $search . '%');
+            $users->orWhere('username', 'like', '%' . $search . '%');
+        }
+
+
+        $users = $users->orderBy('created_at', 'desc')->paginate(10);
+
+        try {
+        } catch (\Exception $ex) {
+            // Kirim respon [200] 'submitted'.
+            return response()->json([
+                'tag' => 'parameter.invalid',
+                'pesan' => "Parameter tidak valid.",
+            ], 400);
+        }
+
+        return $users;
+    }
+
+
+
 
     /**
      * Update Method

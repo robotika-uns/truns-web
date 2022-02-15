@@ -28,7 +28,7 @@ class RecruitNotification extends Notification
     {
         return [
             'id'        => $this->recruit->id,
-            'pesan'     => "recruit_{$this->recruit->status}",
+            'pesan'     => "recruit.{$this->recruit->status}",
             'slug'      => $this->slug
         ];
     }

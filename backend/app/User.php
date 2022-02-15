@@ -20,4 +20,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password',
     ];
+
+    public function journeys()
+    {
+        return $this->hasMany('App\Journey')->orderBy('tanggal_gabung', 'desc');
+    }
 }

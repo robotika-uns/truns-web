@@ -62,7 +62,12 @@ export default {
   css: ['remixicon/fonts/remixicon.css', '@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['~/plugins/axios', '~/plugins/singkat-nama'],
+  plugins: [
+    '~/plugins/axios',
+    '~/plugins/singkat-nama',
+    '~/plugins/tanggal',
+    '~/plugins/singkat-angka',
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
