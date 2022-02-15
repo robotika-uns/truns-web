@@ -131,8 +131,17 @@
                   </td>
                   <td class="text-center">
                     <button
-                      class="tooltip font-bold"
+                      class="font-bold"
+                      :class="{
+                        tooltip: user.id !== $store.state.user.currentUser.id,
+                      }"
                       data-tip="KLIK UNTUK MENGUBAH"
+                      :disabled="user.id === $store.state.user.currentUser.id"
+                      @click="
+                        tipeModal.show = true
+                        selectedUsers = { ...user }
+                        selectedUsers.oldTipe = selectedUsers.tipe
+                      "
                     >
                       <div class="badge badge-primary select-none uppercase">
                         <b>{{ user.tipe }} </b>
@@ -218,15 +227,11 @@
               :old-role="selectedUsers.oldRole"
             />
 
-            <!-- <PengaturanRekrutmenDataFinalisasiModal
-              :finalisasi="finalisasi"
-              :batch="setting['recruit.batch']"
+            <PengaturanUserTipeModal
+              :tipe-modal="tipeModal"
+              :selected-users="selectedUsers"
+              :old-tipe="selectedUsers.oldTipe"
             />
-
-            <PengaturanRekrutmenDataDetilModal
-              :detil="detil"
-              :selected-recruits="selectedUsers"
-            /> -->
           </div>
         </div>
       </div>
@@ -253,6 +258,11 @@ export default {
       },
 
       roleModal: {
+        show: false,
+        loading: false,
+      },
+
+      tipeModal: {
         show: false,
         loading: false,
       },
@@ -298,6 +308,23 @@ export default {
           this.roleModal.error = error.response.data
         })
       this.roleModal.loading = false
+    },
+
+    async changeTipe(user) {
+      this.tipeModal.loading = true
+      await this.$axios
+        .patch(`${this.$config.apiURL}/user/tipe`, {
+          user_id: user.id,
+          tipe: user.tipe,
+        })
+        .then((response) => {
+          this.users.data.find((x) => x.id === user.id).tipe = user.tipe
+          this.tipeModal.show = false
+        })
+        .catch((error) => {
+          this.tipeModal.error = error.response.data
+        })
+      this.tipeModal.loading = false
     },
   },
 }
