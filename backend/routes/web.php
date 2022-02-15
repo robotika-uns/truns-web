@@ -94,7 +94,7 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 $router->group(['prefix' => 'user'], function () use ($router) {
 
     // Ambil data user.
-    $router->get('{username}', [
+    $router->get('/get/{username}', [
         'uses' => 'UserController@getUserByUsername',
     ]);
 
@@ -109,6 +109,14 @@ $router->group(['prefix' => 'user'], function () use ($router) {
         'uses' => 'UserController@photo',
         'middleware' => ['authenticated', 'verified-email']
     ]);
+
+    // Cari user.
+    $router->get('/', [
+        'uses' => 'UserController@search',
+    ]);
+});
+
+$router->group(['prefix' => 'users'], function () use ($router) {
 });
 
 
@@ -208,6 +216,26 @@ $router->group(['prefix' => 'notifications'], function () use ($router) {
     // Ambil notifikasi untuk user saat ini.
     $router->get('/', [
         'uses' => 'NotificationController@getAll',
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator|moderator'
+        ]
+    ]);
+});
+
+
+
+
+/**
+ * Log Routes
+ * -----------------------------------------------------------------------------
+ */
+
+$router->group(['prefix' => 'log'], function () use ($router) {
+
+    // Ambil semua log.
+    $router->get('/', [
+        'uses' => 'LogController@read',
         'middleware' => ['authenticated', 'verified-email']
     ]);
 });
