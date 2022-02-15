@@ -121,6 +121,9 @@ class UserController extends BaseController
         $this->request->auth->update($input);
     }
 
+
+
+
     /**
      * Upload Photo Method
      *
@@ -142,6 +145,40 @@ class UserController extends BaseController
             'tag' => 'upload_sukses',
             'pesan' => 'Foto berhasil diganti.',
             'photo' => $photo,
+        ], 200);
+    }
+
+
+
+
+    /**
+     * Change Role Method
+     *
+     * Untuk mengganti role user.
+     *
+     */
+    public function changeRole()
+    {
+        $roles = implode(',', ['administrator', 'moderator', 'member']);
+
+        $this->validate($this->request, [
+            'role' => "required|in:{$roles}",
+        ]);
+
+        $user = User::find($this->request->input('user_id'));
+        if (count($user) == 0) {
+            return response()->json([
+                'tag' => 'user.notfound',
+                'pesan' => trans('user.notfound'),
+            ], 400);
+        }
+
+        $user->role = $this->request->input('role');
+        $user->save();
+
+        return response()->json([
+            'tag' => 'user.role_changed',
+            'pesan' => trans('user.role_changed'),
         ], 200);
     }
 }

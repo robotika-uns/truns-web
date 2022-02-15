@@ -98,6 +98,15 @@ $router->group(['prefix' => 'user'], function () use ($router) {
         'uses' => 'UserController@getUserByUsername',
     ]);
 
+    // Update role user.
+    $router->patch('/role', [
+        'uses' => 'UserController@changeRole',
+        'middleware' => [
+            'authenticated', 'verified-email',
+            'roles:administrator'
+        ]
+    ]);
+
     // Update data user.
     $router->patch('/', [
         'uses' => 'UserController@update',
