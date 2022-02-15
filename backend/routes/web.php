@@ -254,7 +254,6 @@ $router->group(['prefix' => 'notifications'], function () use ($router) {
         'uses' => 'NotificationController@getAll',
         'middleware' => [
             'authenticated', 'verified-email',
-            'roles:administrator|moderator'
         ]
     ]);
 });
