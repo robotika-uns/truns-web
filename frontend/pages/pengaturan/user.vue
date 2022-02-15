@@ -225,6 +225,7 @@
                 <tr>
                   <th colspan="5" class="bg-base-300">
                     <Pagination
+                      v-if="!$fetchState.pending"
                       :page="users.current_page"
                       :total="users.last_page"
                     />

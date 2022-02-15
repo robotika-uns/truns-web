@@ -274,9 +274,10 @@
             </tr>
           </tbody>
           <tfoot>
-            <tr>
+            <tr >
               <th colspan="4" class="bg-base-300">
                 <Pagination
+                 v-if="!$fetchState.pending"
                   :page="recruits.current_page"
                   :total="recruits.last_page"
                 />

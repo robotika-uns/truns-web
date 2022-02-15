@@ -41,6 +41,7 @@
       </div>
     </div>
     <Pagination
+      v-if="!$fetchState.pending"
       :page="logs.current_page"
       :total="logs.last_page"
       class="mt-8"
