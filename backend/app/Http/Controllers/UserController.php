@@ -99,10 +99,6 @@ class UserController extends BaseController
         $search = $this->request->input('q');
         $users = User::select();
 
-        $users->where('name', 'like', '%' . $search . '%')->orWhere(function ($query) use ($search) {
-            $query->where('username', 'like', '%' . $search . '%');
-        });
-
         $conditions = $this->request->except(['page', 'q']);
 
         foreach ($conditions as $column => $value) {
@@ -111,6 +107,15 @@ class UserController extends BaseController
                 $users->whereIn($column, $array_value);
             }
         }
+
+        $users->where(function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%');
+            $query->orWhere('username', 'like', '%' . $search . '%');
+        });
+
+        $users->with(['journeys' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }]);
 
         $users = $users->orderBy('created_at', 'desc')->paginate(10);
 
