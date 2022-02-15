@@ -66,6 +66,11 @@ export default {
         },
       },
       moderator: {
+        user: {
+          icon: 'team',
+          text: 'User',
+          url: '/pengaturan/user',
+        },
         rekrutmen: {
           icon: 'user-add',
           text: 'Rekrutmen',
