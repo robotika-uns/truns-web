@@ -113,6 +113,7 @@ class UserController extends BaseController
         // Validasi input.
         $this->validate($this->request, [
             'name' => 'required|regex:/^[a-zA-Z0-9\s]+$/',
+            'bio' => 'min:0|max:55',
         ]);
 
         $input = array_map('trim', $this->request->all());
