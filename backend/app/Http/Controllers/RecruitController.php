@@ -178,7 +178,17 @@ class RecruitController extends BaseController
      */
     public function check()
     {
+
+        $user = $this->request->auth;
+        if ($user->tipe == 'alumni' || $user->tipe == 'anggota') {
+            return response()->json([
+                'tag' => 'recruit.accept',
+                'pesan' => trans('recruit.accept'),
+            ], 403);
+        }
+
         $status = Setting::get('recruit.status');
+        $batch = Setting::get('recruit.batch');
 
         if ($status == 0) {
             return response()->json([
@@ -189,11 +199,26 @@ class RecruitController extends BaseController
 
         // Cari recruit berdasarkan user_id.
         $recruit = Recruit::where('user_id', $this->request->auth->id)
+            ->orderBy('created_at', 'desc')
             ->first();
 
         if ($recruit) {
             // Jika recruit sudah mengirim formulir sebelumnya.
             if ($recruit->status == 'diproses') {
+                return response()->json([
+                    'tag' => 'recruit.process',
+                    'pesan' => trans('recruit.process'),
+                ], 403);
+            }
+
+            if ($recruit->status == 'ditolak' && $recruit->batch == $batch) {
+                return response()->json([
+                    'tag' => 'recruit.process',
+                    'pesan' => trans('recruit.process'),
+                ], 403);
+            }
+
+            if ($recruit->status == 'diterima' && $recruit->batch == $batch) {
                 return response()->json([
                     'tag' => 'recruit.process',
                     'pesan' => trans('recruit.process'),

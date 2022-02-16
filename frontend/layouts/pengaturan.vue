@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="px-24 pt-14 grid grid-cols-12 gap-10">
+    <div class="px-24 pt-14 grid grid-cols-12 gap-10 pb-24">
       <div class="col-span-4">
         <PengaturanSidebar />
       </div>

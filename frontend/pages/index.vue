@@ -1,7 +1,5 @@
 <template>
   <div>
-    <Navbar />
-
     <div class="hero min-h-screen mt-[-9rem]">
       <video
         id="myVideo"
@@ -17,17 +15,7 @@
         />
       </video>
       <div
-        class="
-          flex-col
-          justify-center
-          hero-content
-          lg:flex-row-reverse
-          min-w-full
-          px-5
-          md:px-14
-          z-10
-          pt-24
-        "
+        class="flex-col justify-center hero-content lg:flex-row-reverse min-w-full px-5 md:px-14 z-10 pt-24"
       >
         <img src="/assets/img/logo.png" class="p-16 md:max-w-lg" />
         <div class="w-full md:pl-10 text-center md:text-left">
@@ -59,15 +47,7 @@
     </div>
 
     <h1
-      class="
-        pt-24
-        text-5xl
-        font-light
-        tracking-widest
-        text-center
-        bg-base-300
-        text-slate-100
-      "
+      class="pt-24 text-5xl font-light tracking-widest text-center bg-base-300 text-slate-100"
     >
       TIM
     </h1>
@@ -75,17 +55,7 @@
     <div id="tim" class="anchor"></div>
 
     <div
-      class="
-        grid
-        lg:grid-cols-2
-        xl:grid-cols-3
-        gap-16
-        p-5
-        pb-64
-        md:pb-64 md:p-24
-        mx-auto
-        bg-base-300
-      "
+      class="grid lg:grid-cols-2 xl:grid-cols-3 gap-16 p-5 pb-64 md:pb-64 md:p-24 mx-auto bg-base-300"
     >
       <div
         v-for="tim in tims"
@@ -210,12 +180,7 @@
           <div class="justify-end card-actions">
             <NuxtLink
               :to="tim.url"
-              class="
-                btn
-                border-none
-                hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-                tracking-widest
-              "
+              class="btn border-none hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50 tracking-widest"
               :style="`background-color: ${tim.warna.bg}; color: ${tim.warna.text};`"
             >
               Informasi Tim
@@ -227,14 +192,7 @@
 
     <Wave3 />
     <h1
-      class="
-        text-5xl
-        font-light
-        tracking-widest
-        text-center
-        bg-base-100
-        text-slate-100
-      "
+      class="text-5xl font-light tracking-widest text-center bg-base-100 text-slate-100"
     >
       DIVISI
     </h1>
@@ -242,16 +200,7 @@
     <div id="divisi" class="anchor"></div>
 
     <div
-      class="
-        grid
-        xl:grid-cols-3
-        gap-16
-        p-5
-        pb-0
-        md:p-24 md:pb-0
-        mx-auto
-        bg-base-100
-      "
+      class="grid xl:grid-cols-3 gap-16 p-5 pb-0 md:p-24 md:pb-0 mx-auto bg-base-100"
     >
       <div
         v-for="teknis in divisis.teknis"
@@ -273,16 +222,7 @@
           </p>
           <NuxtLink
             :to="teknis.url"
-            class="
-              btn btn-primary
-              hover:shadow-lg
-              tracking-widest
-              hover:shadow-white/50
-              absolute
-              bottom-8
-              right-8
-              left-8
-            "
+            class="btn btn-primary hover:shadow-lg tracking-widest hover:shadow-white/50 absolute bottom-8 right-8 left-8"
           >
             Informasi Divisi
           </NuxtLink>
@@ -291,17 +231,7 @@
     </div>
 
     <div
-      class="
-        grid
-        lg:grid-cols-2
-        xl:grid-cols-4
-        gap-10
-        p-5
-        pb-24
-        md:p-24
-        mx-auto
-        bg-base-100
-      "
+      class="grid lg:grid-cols-2 xl:grid-cols-4 gap-10 p-5 pb-24 md:p-24 mx-auto bg-base-100"
     >
       <div
         v-for="nonteknis in divisis.nonteknis"
@@ -326,191 +256,185 @@
 
           <NuxtLink
             :to="nonteknis.url"
-            class="
-              btn btn-primary
-              hover:shadow-lg
-              tracking-widest
-              hover:shadow-white/50
-              absolute
-              bottom-8
-              right-8
-              left-8
-            "
+            class="btn btn-primary hover:shadow-lg tracking-widest hover:shadow-white/50 absolute bottom-8 right-8 left-8"
           >
             Informasi Divisi
           </NuxtLink>
         </div>
       </div>
     </div>
-
-    <Footer />
   </div>
 </template>
 
 <script>
 export default {
   name: 'IndexPage',
-  data: () => ({
-    tims: {
-      sambergeni: {
-        nama: 'Sambergeni',
-        logo: '/assets/img/tim/sambergeni.png',
-        penjelasan:
-          'Sambergeni merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Pemadam Api.',
-        divisi: 'KRPAI',
-        warna: {
-          bg: '#BB0000',
-          text: '#ffffff',
+  data() {
+    return {
+      tims: {
+        sambergeni: {
+          nama: 'Sambergeni',
+          logo: '/assets/img/tim/sambergeni.png',
+          penjelasan:
+            'Sambergeni merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Pemadam Api.',
+          divisi: 'KRPAI',
+          warna: {
+            bg: '#BB0000',
+            text: '#ffffff',
+          },
+          kompleksitas: {
+            programmer: 50,
+            elektro: 50,
+            mekanik: 50,
+          },
+          url: '/tim#sambergeni',
         },
-        kompleksitas: {
-          programmer: 50,
-          elektro: 50,
-          mekanik: 50,
+        maladi: {
+          nama: 'Maladi',
+          logo: '/assets/img/tim/maladi.png',
+          penjelasan:
+            'Maladi merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Sepak Bola Beroda.',
+          divisi: 'KRSBI',
+          warna: {
+            bg: '#0FA100',
+            text: '#000000',
+          },
+          kompleksitas: {
+            programmer: 50,
+            elektro: 50,
+            mekanik: 50,
+          },
+          url: '/tim#maladi',
         },
-        url: '/tim#sambergeni',
+        werkudara: {
+          nama: 'Werkudara',
+          logo: '/assets/img/tim/werkudara.png',
+          penjelasan:
+            'Werkudara merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Asia-Pacific Robot Contest.',
+          divisi: 'KRAI',
+          warna: {
+            bg: '#AA8000',
+            text: '#000000',
+          },
+          kompleksitas: {
+            programmer: 50,
+            elektro: 50,
+            mekanik: 50,
+          },
+          url: '/tim#werkudara',
+        },
+        sriwedari: {
+          nama: 'Sriwedari',
+          logo: '/assets/img/tim/sriwedari.png',
+          penjelasan:
+            'Sriwedari merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Penari Tradisional.',
+          divisi: 'KRSTI',
+          warna: {
+            bg: '#79008A',
+            text: '#ffffff',
+          },
+          kompleksitas: {
+            programmer: 50,
+            elektro: 50,
+            mekanik: 50,
+          },
+          url: '/tim#sriwedari',
+        },
+        dewisri: {
+          nama: 'Dewisri',
+          logo: '/assets/img/tim/dewisri.png',
+          penjelasan:
+            'Dewisri merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Tematik.',
+          divisi: 'KRTMI',
+          warna: {
+            bg: '#B7BF00',
+            text: '#000000',
+          },
+          kompleksitas: {
+            programmer: 50,
+            elektro: 50,
+            mekanik: 50,
+          },
+          url: '/tim#dewisri',
+        },
+        jaladara: {
+          nama: 'Jaladara',
+          logo: '/assets/img/tim/jaladara.png',
+          penjelasan:
+            'Jaladara merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes dengan tema Robot Bawah Air (ROV).',
+          divisi: 'ROV',
+          warna: {
+            bg: '#00519A',
+            text: '#ffffff',
+          },
+          kompleksitas: {
+            programmer: 50,
+            elektro: 50,
+            mekanik: 50,
+          },
+          url: '/tim#jaladara',
+        },
       },
-      maladi: {
-        nama: 'Maladi',
-        logo: '/assets/img/tim/maladi.png',
-        penjelasan:
-          'Maladi merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Sepak Bola Beroda.',
-        divisi: 'KRSBI',
-        warna: {
-          bg: '#0FA100',
-          text: '#000000',
-        },
-        kompleksitas: {
-          programmer: 50,
-          elektro: 50,
-          mekanik: 50,
-        },
-        url: '/tim#maladi',
-      },
-      werkudara: {
-        nama: 'Werkudara',
-        logo: '/assets/img/tim/werkudara.png',
-        penjelasan:
-          'Werkudara merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Asia-Pacific Robot Contest.',
-        divisi: 'KRAI',
-        warna: {
-          bg: '#AA8000',
-          text: '#000000',
-        },
-        kompleksitas: {
-          programmer: 50,
-          elektro: 50,
-          mekanik: 50,
-        },
-        url: '/tim#werkudara',
-      },
-      sriwedari: {
-        nama: 'Sriwedari',
-        logo: '/assets/img/tim/sriwedari.png',
-        penjelasan:
-          'Sriwedari merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Penari Tradisional.',
-        divisi: 'KRSTI',
-        warna: {
-          bg: '#79008A',
-          text: '#ffffff',
-        },
-        kompleksitas: {
-          programmer: 50,
-          elektro: 50,
-          mekanik: 50,
-        },
-        url: '/tim#sriwedari',
-      },
-      dewisri: {
-        nama: 'Dewisri',
-        logo: '/assets/img/tim/dewisri.png',
-        penjelasan:
-          'Dewisri merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes Robot Nasional divisi Robot Tematik.',
-        divisi: 'KRTMI',
-        warna: {
-          bg: '#B7BF00',
-          text: '#000000',
-        },
-        kompleksitas: {
-          programmer: 50,
-          elektro: 50,
-          mekanik: 50,
-        },
-        url: '/tim#dewisri',
-      },
-      jaladara: {
-        nama: 'Jaladara',
-        logo: '/assets/img/tim/jaladara.png',
-        penjelasan:
-          'Jaladara merupakan delegasi Tim Robotika UNS yang berfokus pada Kontes dengan tema Robot Bawah Air (ROV).',
-        divisi: 'ROV',
-        warna: {
-          bg: '#00519A',
-          text: '#ffffff',
-        },
-        kompleksitas: {
-          programmer: 50,
-          elektro: 50,
-          mekanik: 50,
-        },
-        url: '/tim#jaladara',
-      },
-    },
 
-    divisis: {
-      teknis: {
-        programmer: {
-          nama: 'Programmer',
-          logo: '/assets/img/divisi/teknis/programmer.svg',
-          penjelasan:
-            'Menganalisis kebutuhan modul atau sensor. Merancang dan memodelkan sistem seperti UML, flowchart, ERD dll. Menulis kode program (C++ Arduino, Python, dll.). Men-debugging program, serta menguji atau testing program.',
-          url: '/divisi#programmer',
+      divisis: {
+        teknis: {
+          programmer: {
+            nama: 'Programmer',
+            logo: '/assets/img/divisi/teknis/programmer.svg',
+            penjelasan:
+              'Menganalisis kebutuhan modul atau sensor. Merancang dan memodelkan sistem seperti UML, flowchart, ERD dll. Menulis kode program (C++ Arduino, Python, dll.). Men-debugging program, serta menguji atau testing program.',
+            url: '/divisi#programmer',
+          },
+          elektro: {
+            nama: 'Elektro',
+            logo: '/assets/img/divisi/teknis/elektro.svg',
+            penjelasan:
+              'Merancang skematik, mensimulasikan, serta mencetak rangkaian listrik. Memastikan rangkaian listrik aman. Menganalisis modul atau sensor yang kemungkinan rusak. Memastikan kebutuhan daya dan arus modul atau sensor terpenuhi.',
+            url: '/divisi#elektro',
+          },
+          mekanik: {
+            nama: 'Mekanik',
+            logo: '/assets/img/divisi/teknis/mekanik.svg',
+            penjelasan:
+              'Mendesain prototipe robot secara digital maupun fisik. Merancang mekanisme gerak robot. Menganalisis kebutuhan bahan. Memprioritaskan fungsionalitas mekanisme gerak robot. Mampu mengoperasikan alat-alat mekanik.',
+            url: '/divisi#mekanik',
+          },
         },
-        elektro: {
-          nama: 'Elektro',
-          logo: '/assets/img/divisi/teknis/elektro.svg',
-          penjelasan:
-            'Merancang skematik, mensimulasikan, serta mencetak rangkaian listrik. Memastikan rangkaian listrik aman. Menganalisis modul atau sensor yang kemungkinan rusak. Memastikan kebutuhan daya dan arus modul atau sensor terpenuhi.',
-          url: '/divisi#elektro',
-        },
-        mekanik: {
-          nama: 'Mekanik',
-          logo: '/assets/img/divisi/teknis/mekanik.svg',
-          penjelasan:
-            'Mendesain prototipe robot secara digital maupun fisik. Merancang mekanisme gerak robot. Menganalisis kebutuhan bahan. Memprioritaskan fungsionalitas mekanisme gerak robot. Mampu mengoperasikan alat-alat mekanik.',
-          url: '/divisi#mekanik',
+        nonteknis: {
+          sekretaris: {
+            nama: 'Sekretaris',
+            logo: '/assets/img/divisi/nonteknis/sekretaris.svg',
+            penjelasan:
+              'Merancang proposal, surat-menyurat, dan segala urusan administrasi yang berkaitan dengan organisasi Robotika UNS.',
+            url: '/divisi#sekretaris',
+          },
+          bendahara: {
+            nama: 'Bendahara',
+            logo: '/assets/img/divisi/nonteknis/bendahara.svg',
+            penjelasan:
+              'Mengajukan proposal pendanaan. Merancang RAB. Serta mengelola seluruh keuangan organisasi Robotika UNS.',
+            url: '/divisi#bendahara',
+          },
+          internal: {
+            nama: 'Internal',
+            logo: '/assets/img/divisi/nonteknis/internal.svg',
+            penjelasan:
+              'Mengelola kegiatan organisasi. Menguatkan hubungan antar anggota di dalam organisasi maupun di luar organisasi Robotika UNS.',
+            url: '/divisi#internal',
+          },
+          media: {
+            nama: 'Media',
+            logo: '/assets/img/divisi/nonteknis/media.svg',
+            penjelasan:
+              'Mendokumentasikan kegiatan. Serta sebagai jembatan komunikasi antara anggota dengan non-anggota di luar organisasi Robotika UNS.',
+            url: '/divisi#media',
+          },
         },
       },
-      nonteknis: {
-        sekretaris: {
-          nama: 'Sekretaris',
-          logo: '/assets/img/divisi/nonteknis/sekretaris.svg',
-          penjelasan:
-            'Merancang proposal, surat-menyurat, dan segala urusan administrasi yang berkaitan dengan organisasi Robotika UNS.',
-          url: '/divisi#sekretaris',
-        },
-        bendahara: {
-          nama: 'Bendahara',
-          logo: '/assets/img/divisi/nonteknis/bendahara.svg',
-          penjelasan:
-            'Mengajukan proposal pendanaan. Merancang RAB. Serta mengelola seluruh keuangan organisasi Robotika UNS.',
-          url: '/divisi#bendahara',
-        },
-        internal: {
-          nama: 'Internal',
-          logo: '/assets/img/divisi/nonteknis/internal.svg',
-          penjelasan:
-            'Mengelola kegiatan organisasi. Menguatkan hubungan antar anggota di dalam organisasi maupun di luar organisasi Robotika UNS.',
-          url: '/divisi#internal',
-        },
-        media: {
-          nama: 'Media',
-          logo: '/assets/img/divisi/nonteknis/media.svg',
-          penjelasan:
-            'Mendokumentasikan kegiatan. Serta sebagai jembatan komunikasi antara anggota dengan non-anggota di luar organisasi Robotika UNS.',
-          url: '/divisi#media',
-        },
-      },
-    },
-  }),
+    }
+  },
+  created() {
+    this.$store.commit('page/setTitle', 'Beranda')
+  },
 }
 </script>

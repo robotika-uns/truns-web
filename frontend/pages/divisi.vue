@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Navbar />
     <UnderConstruction />
   </div>
 </template>
@@ -8,6 +7,11 @@
 <script>
 export default {
   name: 'DivisiPage',
-  data: () => ({}),
+  data() {
+    return {}
+  },
+  created() {
+    this.$store.commit('page/setTitle', 'Divisi')
+  },
 }
 </script>

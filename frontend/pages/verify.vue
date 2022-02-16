@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="hero min-h-screen bg-base-200">
+    <div class="hero min-h-screen bg-base-200 mt-[-9rem]">
       <div class="text-center hero-content z-50">
         <div class="max-w-xl">
           <h1 class="mb-5 text-5xl font-bold">Verifikasi Email</h1>

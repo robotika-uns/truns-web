@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="min-h-screen bg-base-100">
+    <div class="min-h-screen bg-base-100 mt-[-9rem]">
       <div class="flex md:flex-row gap-4 min-h-screen">
         <div
-          class="md:basis-7/12 lg:basis-7/12 xl:basis-8/12 place-self-center z-50 hidden md:block"
+          class="md:basis-7/12 lg:basis-7/12 xl:basis-8/12 place-self-center z-10 hidden md:block"
         >
           <div class="text-left px-10 xl:px-24">
             <!-- <img src="/assets/img/login.svg" class="max-w-sm" alt="" /> -->
@@ -47,12 +47,12 @@
           </div>
         </div>
         <div
-          class="flex md:basis-5/12 lg:basis-5/12 xl:basis-4/12 bg-base-300 min-h-screen place-self-center w-full px-14 z-50"
+          class="flex md:basis-5/12 lg:basis-5/12 xl:basis-4/12 bg-base-300 min-h-screen place-self-center w-full px-14 z-10"
         >
-          <div class="w-full place-self-center z-50">
+          <div class="w-full place-self-center">
             <img src="/assets/img/logo.png" class="w-52 m-auto mb-14" alt="" />
 
-            <div v-if="state.error" class="alert alert-error mb-10">
+            <div v-if="state.error" class="alert alert-error mb-5">
               <div class="flex-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -3,17 +3,7 @@
     <div class="pt-36"></div>
 
     <div
-      class="
-        navbar
-        fixed
-        top-0
-        left-0
-        right-0
-        shadow-xl
-        backdrop-blur-md
-        text-neutral-content
-        z-50
-      "
+      class="navbar fixed top-0 left-0 right-0 shadow-xl backdrop-blur-md text-neutral-content z-50"
     >
       <div class="navbar-start">
         <NuxtLink to="/" class="lg:flex hidden px-10">
@@ -40,28 +30,11 @@
             </div>
             <ul
               tabindex="0"
-              class="
-                p-2
-                menu
-                dropdown-content
-                bg-base-300
-                border border-white/10
-                rounded-box
-                w-52
-              "
+              class="p-2 menu dropdown-content bg-base-300 border border-white/10 rounded-box w-52"
             >
               <li v-for="menu in menus" :key="menu.text">
                 <NuxtLink
-                  class="
-                    btn btn-md
-                    rounded-btn
-                    font-light
-                    tracking-widest
-                    transition
-                    ease-in-out
-                    hover:scale-110
-                    duration-200
-                  "
+                  class="btn btn-md rounded-btn font-light tracking-widest transition ease-in-out hover:scale-110 duration-200"
                   :class="$route.path == menu.url ? 'btn-neutral' : 'btn-ghost'"
                   :to="menu.url"
                 >
@@ -77,18 +50,7 @@
           <NuxtLink
             v-for="menu in menus"
             :key="menu.text"
-            class="
-              mx-1
-              px-4
-              btn btn-sm
-              rounded-btn
-              text-lg
-              tracking-widest
-              transition
-              ease-in-out
-              hover:-translate-y-1
-              duration-200
-            "
+            class="mx-1 px-4 btn btn-sm rounded-btn text-lg tracking-widest transition ease-in-out hover:-translate-y-1 duration-200"
             :class="
               $route.path == menu.url ? 'font-medium' : 'btn-ghost font-light'
             "
@@ -124,10 +86,10 @@ export default {
         text: 'DIVISI',
         url: '/divisi',
       },
-      kontak: {
-        text: 'KONTAK',
-        url: '/kontak',
-      },
+      // kontak: {
+      //   text: 'KONTAK',
+      //   url: '/kontak',
+      // },
     },
   }),
 }

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Navbar />
     <div class="hero min-h-screen mt-[-9rem]">
       <div
         class="flex-col justify-center hero-content lg:flex-row-reverse min-w-full px-5 md:px-14 z-10 pt-24"
@@ -670,8 +669,6 @@
         </div>
       </div>
     </div>
-
-    <Footer />
   </div>
 </template>
 

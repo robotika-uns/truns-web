@@ -1,6 +1,5 @@
 <template>
   <div>
-    <Navbar />
     <div
       class="h-80 rounded-b-[5rem] bg-base-300 mt-[-9rem] shadow-2xl shadow-black/70"
     >
@@ -372,8 +371,6 @@
         </div>
       </div>
     </div>
-
-    <Footer />
   </div>
 </template>
 

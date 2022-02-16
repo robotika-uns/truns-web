@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <Navbar />
-
+  <div class="pb-28">
     <div
       class="h-56 rounded-b-[5rem] bg-base-300 mt-[-9rem] shadow-2xl shadow-black/70"
     >
@@ -152,8 +150,6 @@
         </div>
       </div>
     </div>
-
-    <Footer />
   </div>
 </template>
 
@@ -187,10 +183,8 @@ export default {
         this.state.isFetchingNotifications = false
       })
   },
-  head() {
-    return {
-      title: `Dashboard | ${this.$config.appName}`,
-    }
+  created() {
+    this.$store.commit('page/setTitle', 'Dashboard')
   },
   methods: {
     tanggal(date) {

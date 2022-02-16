@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div class="py-96 -mt-24 md:-mt-64 lg:-mt-72 md:py-28"></div>
-    <div class="py-96 md:py-28"></div>
-
-    <div id="footers">
+    <div id="footers" class="z-50">
       <footer
-        class="items-center p-4 footer bg-[#0a0a0aa8] text-neutral-content rounded-t-3xl"
+        class="items-center p-4 footer bg-[#0a0a0aa8] border-t-2 border-primary/10 text-neutral-content rounded-t-3xl"
       >
         <div class="items-center grid-flow-col">
           <img src="/assets/img/logo.png" width="40" height="40" alt="" />

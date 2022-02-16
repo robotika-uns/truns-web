@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Navbar />
-
-    <div class="hero min-h-screen bg-base-100 mt-[-9rem] pt-24">
+    <div class="hero min-h-screen bg-base-300 mt-[-9rem] pt-24">
       <div class="flex-col justify-center hero-content lg:flex-row z-10">
         <div class="text-center lg:text-left lg:pr-20">
           <h1 class="mb-5 text-5xl font-bold uppercase">Hubungi Kami</h1>
@@ -14,14 +12,7 @@
           </p>
         </div>
         <div
-          class="
-            card
-            flex-shrink-0
-            w-full
-            max-w-sm
-            shadow-2xl shadow-white/10
-            bg-base-200
-          "
+          class="card flex-shrink-0 w-full max-w-sm shadow-2xl shadow-white/10 bg-base-200"
         >
           <div class="card-body">
             <form id="contactForm" @submit.prevent="sendMessage">
@@ -81,11 +72,7 @@
               <div class="form-control mt-6">
                 <button
                   type="submit"
-                  class="
-                    btn btn-primary
-                    tracking-widest
-                    hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50
-                  "
+                  class="btn btn-primary tracking-widest hover:shadow-lg hover:-translate-y-2 hover:shadow-white/50"
                   :disabled="state.isSending"
                 >
                   <span v-if="!state.isSending"> KIRIM </span>
@@ -110,7 +97,7 @@
           </div>
         </div>
       </div>
-      <Wave />
+      <Wave3 />
     </div>
 
     <input
@@ -147,6 +134,9 @@ export default {
       isSending: false,
     },
   }),
+  created() {
+    this.$store.commit('page/setTitle', 'Kontak')
+  },
   methods: {
     async sendMessage() {
       this.state.isSending = true
