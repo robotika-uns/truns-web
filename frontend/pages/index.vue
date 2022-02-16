@@ -217,15 +217,9 @@
           </div>
         </div>
         <div class="card-body relative">
-          <p class="pb-24">
+          <p>
             {{ teknis.penjelasan }}
           </p>
-          <NuxtLink
-            :to="teknis.url"
-            class="btn btn-primary hover:shadow-lg tracking-widest hover:shadow-white/50 absolute bottom-8 right-8 left-8"
-          >
-            Informasi Divisi
-          </NuxtLink>
         </div>
       </div>
     </div>
@@ -250,19 +244,14 @@
           </div>
         </div>
         <div class="card-body">
-          <p class="pb-24">
+          <p>
             {{ nonteknis.penjelasan }}
           </p>
-
-          <NuxtLink
-            :to="nonteknis.url"
-            class="btn btn-primary hover:shadow-lg tracking-widest hover:shadow-white/50 absolute bottom-8 right-8 left-8"
-          >
-            Informasi Divisi
-          </NuxtLink>
         </div>
       </div>
     </div>
+
+    <div class="pb-16"></div>
   </div>
 </template>
 
@@ -283,8 +272,8 @@ export default {
             text: '#ffffff',
           },
           kompleksitas: {
-            programmer: 50,
-            elektro: 50,
+            programmer: 80,
+            elektro: 70,
             mekanik: 50,
           },
           url: '/tim#sambergeni',
@@ -300,9 +289,9 @@ export default {
             text: '#000000',
           },
           kompleksitas: {
-            programmer: 50,
-            elektro: 50,
-            mekanik: 50,
+            programmer: 95,
+            elektro: 85,
+            mekanik: 75,
           },
           url: '/tim#maladi',
         },
@@ -318,8 +307,8 @@ export default {
           },
           kompleksitas: {
             programmer: 50,
-            elektro: 50,
-            mekanik: 50,
+            elektro: 65,
+            mekanik: 95,
           },
           url: '/tim#werkudara',
         },
@@ -334,9 +323,9 @@ export default {
             text: '#ffffff',
           },
           kompleksitas: {
-            programmer: 50,
+            programmer: 80,
             elektro: 50,
-            mekanik: 50,
+            mekanik: 35,
           },
           url: '/tim#sriwedari',
         },
@@ -352,8 +341,8 @@ export default {
           },
           kompleksitas: {
             programmer: 50,
-            elektro: 50,
-            mekanik: 50,
+            elektro: 75,
+            mekanik: 80,
           },
           url: '/tim#dewisri',
         },
@@ -368,9 +357,9 @@ export default {
             text: '#ffffff',
           },
           kompleksitas: {
-            programmer: 50,
-            elektro: 50,
-            mekanik: 50,
+            programmer: 80,
+            elektro: 75,
+            mekanik: 90,
           },
           url: '/tim#jaladara',
         },

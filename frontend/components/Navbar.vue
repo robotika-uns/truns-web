@@ -82,10 +82,6 @@ export default {
         text: 'TIM',
         url: '/tim',
       },
-      divisi: {
-        text: 'DIVISI',
-        url: '/divisi',
-      },
       // kontak: {
       //   text: 'KONTAK',
       //   url: '/kontak',
